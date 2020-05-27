@@ -13,7 +13,7 @@ Interface | `IAlimento`
 
 Interfaces associadas a esse componente:
 
-![Dispositivo Alimento](dispositivoAlimento.png)
+![Dispositivo Alimento](dispositivoAlimento.jpg)
 
 ```
 public interface IAlimento {
