@@ -36,7 +36,7 @@ Interface para passar as características genéticas do indivíduo adiante.
 
 Método | Objetivo
 ------ | --------
-`propriedades` | Retorna a classe de [propriedades do ambiente](docs/PropriedadesAmbiente.md).
+`propriedades` | Retorna a classe de [propriedades do ambiente](PropriedadesAmbiente.md).
 `individuos` | Retorna a grade de indivíduos.
 `alimentos` | Retorna a grade de alimentos.
 `passo` | Realiza um passo de lógica de simulação.
