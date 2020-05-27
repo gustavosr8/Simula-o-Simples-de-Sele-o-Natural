@@ -17,6 +17,7 @@ TODO
 
 ```
 public interface IAlimento {
+    public float setValorEnergetico();
     public float getValorEnergetico();
 }
 ```
