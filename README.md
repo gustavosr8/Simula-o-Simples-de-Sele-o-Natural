@@ -17,16 +17,17 @@ Para a construção dos diagramas, devem ser usados modelos disponíveis em: [Di
 
 # Modelo para Documentação do Projeto
 
-# Projeto `<Título>`
+# Projeto 'Simulação Simples de Seleção Natural'
 
 # Equipe
-* `<nome completo>` - `<RA>`
+* `Gustavo de Souza dos Reis` - `217425`
+* `Nicolas Bissoli Nattis` - `222903`
 
 # Descrição Resumida do Projeto
-`<descreva resumidamente o que fará o projeto>`
+`O Projeto visa criar uma simulação na qual é possivel, de forma simplificada, observar como a seleção natural agiria sobre certos indivíduos a partir de características inicialmente estabelecidas`
 
 # Vídeo do Projeto
-`<coloque um link para o vídeo do projeto, se houver>`
+`https://youtu.be/5YG_XTaacII`
 
 # Diagrama Geral de Componentes
 
