@@ -15,4 +15,3 @@ O projeto visa criar uma simulação na qual é possivel, de forma simplificada,
 * [Individuo](docs/Individuo.md)
 * [Alimento](docs/Alimento.md)
 * [Ambiente](docs/Ambiente.md)
-* [PropriedadesAmbiente](docs/PropriedadesAmbiente.md)
