@@ -13,7 +13,7 @@ Interface | `IAmbiente`
 
 Interfaces associadas a esse componente:
 
-TODO
+![Dispositivo Ambiente](dispositivoAmbiente.jpg)
 
 ```
 public interface IAmbiente {
