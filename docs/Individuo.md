@@ -12,8 +12,7 @@ Interface | `IIndividuo`
 ### Interfaces
 
 Interfaces associadas a esse componente:
-
-TODO
+![Dispositivo Individuo](dispositivoIndividuo.jpg)
 
 ```
 public interface IGene {
