@@ -9,6 +9,9 @@ Autores | `<nome dos membros que criaram o componente>`
 Objetivo | Representa o ambiente de simulação.
 Interface | `IAmbiente`
 
+<br>
+<br>
+
 ### Interfaces
 
 Interfaces associadas a esse componente:
@@ -27,8 +30,12 @@ public interface IAmbiente {
     public void reiniciar();
 }
 ```
+<br>
+<br>
 
 ## Detalhamento das Interfaces
+
+<br>
 
 ### Interface `IAmbiente`
 
