@@ -10,6 +10,8 @@ Autores | `<nome dos membros que criaram o componente>`
 Objetivo | Representa um indivíduo na simulação.
 Interface | `IIndividuo`
 
+<br>
+
 ### Interfaces
 
 Interfaces associadas a esse componente:
@@ -34,8 +36,12 @@ public interface IComensal {
 
 public interface IIndividuo extends IGene, IComensal {}
 ```
+<br>
+<br>
 
 ## Detalhamento das Interfaces
+
+<br>
 
 ### Interface `IGene`
 
@@ -46,6 +52,8 @@ Método | Objetivo
 `getVelocidade` | Retorna a velocidade do indivíduo.
 `getTamanho` | Retorna o tamanho do indivíduo.
 `getAltruismo` | Retorna o altruísmo do indivíduo.
+
+<br>
 
 ### Interface `IComensal`
 
