@@ -1,6 +1,7 @@
 # Componente `Individuo`
 
-TODO
+![Componente Individuo](componenteIndividuo.jpg)
+
 
 Campo | Valor
 ----- | -----
