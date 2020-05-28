@@ -1,6 +1,6 @@
 # Componente `Alimento`
 
-TODO
+![Componente Alimento](componenteAlimento.jpg)
 
 Campo | Valor
 ----- | -----
