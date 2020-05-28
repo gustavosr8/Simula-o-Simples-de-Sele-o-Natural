@@ -16,5 +16,5 @@ O projeto visa criar uma simulação na qual é possivel, de forma simplificada,
 * [Alimento](docs/Alimento.md)
 * [Ambiente](docs/Ambiente.md)
 
-# Fluxo de Componentes
+# Diagrama Geral de Componentes
 ![Fluxo de Componentes](docs/FluxoComponentes.jpg)
