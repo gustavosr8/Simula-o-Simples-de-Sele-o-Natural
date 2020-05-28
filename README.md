@@ -15,9 +15,7 @@ O projeto visa criar uma simulação na qual é possivel, de forma simplificada,
 
 
 
-
-# Vídeo do Projeto
-https://youtu.be/5YG_XTaacII
+[Descrição do projeto em vídeo](https://youtu.be/5YG_XTaacII)
 
 
 
