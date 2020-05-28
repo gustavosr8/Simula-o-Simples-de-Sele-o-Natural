@@ -1,5 +1,5 @@
 # Projeto 'Simulação Simples de Seleção Natural'
-<br></br>
+<br>
 # Equipe
 * Gustavo de Souza dos Reis - 217425
 * Nicolas Bissoli Nattis - 222903
