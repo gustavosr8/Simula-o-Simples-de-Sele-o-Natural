@@ -9,6 +9,9 @@ Autores | `<nome dos membros que criaram o componente>`
 Objetivo | Representa uma unidade de alimento na simulação.
 Interface | `IAlimento`
 
+<br>
+<br>
+
 ### Interfaces
 
 Interfaces associadas a esse componente:
@@ -21,8 +24,12 @@ public interface IAlimento {
     public float getValorEnergetico();
 }
 ```
+<br>
+<br>
 
 ## Detalhamento das Interfaces
+
+<br>
 
 ### Interface `IAlimento`
 
