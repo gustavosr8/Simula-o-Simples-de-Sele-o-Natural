@@ -1,5 +1,7 @@
 # Componente `PropriedadesAmbiente`
 
+![Propriedades Ambiente](PropriedadesAmbiente.jpg)
+
 Campo | Valor
 ----- | -----
 Classe | `<caminho completo da classe com pacotes>`
