@@ -1,6 +1,6 @@
 # Componente `Ambiente`
 
-TODO
+![Componente Ambiente](componenteAmbiente.jpg)
 
 Campo | Valor
 ----- | -----
