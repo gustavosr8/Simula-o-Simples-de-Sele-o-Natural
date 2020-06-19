@@ -1,13 +1,13 @@
-# Componente `CAmbiente`
+# Componente `CAlimento`
 
-(TODO CAmbiente)
+(TODO CAlimento)
 
 Campo | Valor
 ----- | -----
 Classe | `<caminho completo da classe com pacotes>`
 Autores | `<nome dos membros que criaram o componente>`
 Objetivo | Representa um alimento.
-Interface | `IAmbiente`
+Interface | `IAlimento`
 
 ### Interfaces
 
