@@ -8,6 +8,7 @@
 O projeto visa criar uma simulação na qual é possivel, de forma simplificada, observar como a seleção natural agiria sobre certos indivíduos a partir de características inicialmente estabelecidas.
 
 [Apresentação do projeto](https://docs.google.com/presentation/d/1VNRqjlXSO0DlfJKghyU4DFAkQsdF8YDgi9pIIya53mk/edit?usp=sharing)
+
 [Descrição do projeto em vídeo](https://youtu.be/5YG_XTaacII)
 
 # Componentes
