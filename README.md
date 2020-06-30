@@ -57,95 +57,193 @@ public void algoInteressante(…) {
 
 > <Explicação de como o pattern foi adotado e quais suas vantagens, referenciando o diagrama.>
 
-# Documentação dos Componentes
-
-O vídeo a seguir apresenta um detalhamento de um projeto baseado em componentes:
-
-[![Projeto baseado em Componentes](http://img.youtube.com/vi/1LcSghlin6o/0.jpg)](https://youtu.be/1LcSghlin6o)
-
 # Diagramas
-
-## Diagrama Geral do Projeto
-
-> <Apresente um diagrama geral de organização da organização do seu sistema. O formato é livre. A escolha de um ou mais estilos arquiteturais será considerado um diferencial.>
-
-> <Faça uma breve descrição do diagrama.>
 
 ## Diagrama Geral de Componentes
 
-## Componente `<Nome do Componente>`
+> ![Diagrama Geral de Componentes](docs/DiagramaGeralComponentes.jpg)
 
-> <Resumo do papel do componente e serviços que ele oferece.>
+> No diagrama apresentado, podemos ver como os componentes se comunicam entre si, e também como é feita a comunicação com o usuário
 
-![Componente](diagrama-componente.png)
+## Detalhamento Componentes
+
+## Componente `Display`
+
+> Componente responsável pela interface gráfica do programa.
+
+![Display](docs/ComponenteDisplay.jpg)
 
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
 Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
-Autores | `<nome dos membros que criaram o componente>`
-Interfaces | `<listagem das interfaces do componente>`
+Autores | Nicolas e Gustavo
+Interfaces | IDisplay
 
 ### Interfaces
 
 Interfaces associadas a esse componente:
 
-![Diagrama Interfaces](diagrama-interfaces.png)
+![IDisplay](docs/IDisplay.jpg)
 
 Interface agregadora do componente em Java:
 
 ~~~java
-public interface IDataSet extends ITableProducer, IDataSetProperties {
+public interface IDisplay {
+}
+~~~
+## Componente `Alimento`
+
+> Tipo de objeto que fornece energia para o indivíduo e que pode gerar uma disputa
+
+![Alimento](docs/ComponenteAlimento.jpg)
+
+**Ficha Técnica**
+item | detalhamento
+----- | -----
+Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
+Autores | Nicolas e Gustavo
+Interfaces | IAlimento
+
+### Interfaces
+
+Interfaces associadas a esse componente:
+
+![IAlimento](docs/IAlimento.jpg)
+
+Interface agregadora do componente em Java:
+
+~~~java
+public interface IAlimento extends IObjeto {
+}
+~~~
+
+## Componente `Ambiente`
+
+> Meio celular no qual ocorrem as interações entre os demais componentes
+
+![Ambiente](docs/ComponenteAmbiente.jpg)
+
+**Ficha Técnica**
+item | detalhamento
+----- | -----
+Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
+Autores | Nicolas e Gustavo
+Interfaces | IAmbiente
+
+### Interfaces
+
+Interfaces associadas a esse componente:
+
+![IAmbiente](docs/IAmbiente.jpg)
+
+Interface agregadora do componente em Java:
+
+~~~java
+public interface IAmbiente extends IPropriedades {
+}
+~~~
+
+## Componente `Casa`
+
+> Espaço no qual pode haver um objeto ou estar vazio
+
+![Casa](docs/ComponenteCasa.jpg)
+
+**Ficha Técnica**
+item | detalhamento
+----- | -----
+Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
+Autores | Nicolas e Gustavo
+Interfaces | ICasa
+
+### Interfaces
+
+Interfaces associadas a esse componente:
+
+![ICasa](docs/ICasa.jpg)
+
+Interface agregadora do componente em Java:
+
+~~~java
+public interface ICasa {
+}
+~~~
+
+
+## Componente `Individuo`
+
+> Um tipo de objeto no qual o projeto se baseia, sendo importante as interações entre diferentes indivíduos
+
+![Individuo](docs/ComponenteIndividuo.jpg)
+
+**Ficha Técnica**
+item | detalhamento
+----- | -----
+Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
+Autores | Nicolas e Gustavo
+Interfaces | IIndividuo
+
+### Interfaces
+
+Interfaces associadas a esse componente:
+
+![IIndividuo](docs/IIndividuo.jpg)
+
+Interface agregadora do componente em Java:
+
+~~~java
+public interface IIndividuo extends IObjeto, IComensal, IReproducao {
+}
+~~~
+
+## Componentes `DisputaAgressivo DisputaAltruista`
+
+>Componentes relacionados à disputa por um objeto, que podem ser agressivas, na qual um dos interagentes é eliminado, e altruista, na qual um dos interagentes cede o objeto disputado
+
+[Disputa](docs/ComponenteDisputa.jpg)
+
+**Ficha Técnica**
+item | detalhamento
+----- | -----
+Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
+Autores | Nicolas e Gustavo
+Interfaces | IDisputa
+
+### Interfaces
+
+Interfaces associadas a esse componente:
+
+![IDisputa](docs/IDisputa.jpg)
+
+Interface agregadora do componente em Java:
+
+~~~java
+public interface IDisputa{
 }
 ~~~
 
 ## Detalhamento das Interfaces
 
-### Interface `<nome da interface>`
+### Interface `IDisplay`
 
-`<Resumo do papel da interface.>`
-
-~~~
-<Interface em Java.>
-~~~
-
-Método | Objetivo
--------| --------
-`<id do método em Java>` | `<objetivo do método e descrição dos parâmetros>`
-
-## Exemplo:
-
-### Interface `ITableProducer`
-
-Interface provida por qualquer fonte de dados que os forneça na forma de uma tabela.
+`Interface responsável pelo visual gráfico do programa`
 
 ~~~java
-public interface ITableProducer {
-  String[] requestAttributes();
-  String[][] requestInstances();
+public interface IDisplay{
+
+   public desenharCirculo(Posicao pos, int raio, float r, float g, float b);
+   public desenharLosango(Posicao pos, int raio, float r, float g, float b);
+   public desenharTexto(Posicao pos, String texto);
+   
 }
 ~~~
 
 Método | Objetivo
 -------| --------
-`requestAttributes` | Retorna um vetor com o nome de todos os atributos (colunas) da tabela.
-`requestInstances` | Retorna uma matriz em que cada linha representa uma instância e cada coluna o valor do respectivo atributo (a ordem dos atributos é a mesma daquela fornecida por `requestAttributes`.
-
-### Interface `IDataSetProperties`
-
-Define o recurso (usualmente o caminho para um arquivo em disco) que é a fonte de dados.
-
-~~~java
-public interface IDataSetProperties {
-  public String getDataSource();
-  public void setDataSource(String dataSource);
-}
-~~~
-
-Método | Objetivo
--------| --------
-`getDataSource` | Retorna o caminho da fonte de dados.
-`setDataSource` | Define o caminho da fonte de dados, informado através do parâmetro `dataSource`.
+`desenharCirculo` | `Cria um circulo com um certo raio, em uma certa posição, com as cores dadas a partir das variáveis rgb`
+`desenharLosango` | `Cria um losango com um certo lado, em uma certa posição, com as cores dadas a partir das variáveis rgb`
+`desenharTexto` | `Cria um texto em uma certa posição dada`
 
 # Plano de Exceções
 
