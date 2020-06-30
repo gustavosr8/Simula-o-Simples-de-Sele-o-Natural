@@ -2,7 +2,7 @@
 public interface IPropriedades {
 	
 	public String[] getPropriedades();
-    public String getPropriedade(String nome);
-    public void setPropriedade(String nome, String valor);
+    public float getPropriedade(String nome);
+    public void setPropriedade(String nome, float valor);
 
 }
