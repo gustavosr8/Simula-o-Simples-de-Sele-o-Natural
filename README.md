@@ -275,7 +275,7 @@ Método | Objetivo
 public interface IObjeto extends IPropriedade{
 
    public void exibir(IDisplay display);
-   public void passo(IAmbiente);
+   public void passo(IAmbiente ambiente);
    
 }
 ~~~
