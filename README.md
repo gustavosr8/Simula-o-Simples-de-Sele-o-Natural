@@ -232,9 +232,9 @@ public interface IDisputa{
 ~~~java
 public interface IDisplay{
 
-   public desenharCirculo(Posicao pos, int raio, float r, float g, float b);
-   public desenharLosango(Posicao pos, int raio, float r, float g, float b);
-   public desenharTexto(Posicao pos, String texto);
+   public void desenharCirculo(Posicao pos, int raio, float r, float g, float b);
+   public void desenharLosango(Posicao pos, int raio, float r, float g, float b);
+   public void desenharTexto(Posicao pos, String texto);
    
 }
 ~~~
@@ -245,11 +245,198 @@ Método | Objetivo
 `desenharLosango` | `Cria um losango com um certo lado, em uma certa posição, com as cores dadas a partir das variáveis rgb`
 `desenharTexto` | `Cria um texto em uma certa posição dada`
 
+
+### Interface `IPropriedades`
+
+`Interface responsável pela definição e pela obtenção de propriedades`
+
+~~~java
+public interface IPropriedades{
+
+   public String[] getPropriedades();
+   public String getPropriedade(String nome);
+   public void setPropriedade(String propriedade, String valor);
+   
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`getPropriedades` | `Retorna uma lista contendo todas as propriedades`
+`getPropriedade` | `Retorna o valor da propriedade passada como parâmetro`
+`setPropriedade` | `Define o valor de uma propriedade`
+
+
+### Interface `IObjeto`
+
+`Generalização dos itens que compõe o ambiente celular`
+
+~~~java
+public interface IObjeto extends IPropriedade{
+
+   public void exibir(IDisplay display);
+   public void passo(IAmbiente);
+   
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`exibir` | `Exibe o objeto em questão na tela do usuário, a partir dos métodos da interface IDisplay`
+`passo` | `Realiza um ciclo em um dado ambiente, e atualiza o objeto conforme for definido no ciclo'
+
+
+### Interface `IDisputa`
+
+`Interface reponsável por gerir a disputa entre dos seres`
+
+~~~java
+public interface IDisputa{
+
+   public void incitar(IDisputa outro);
+   public boolean passoLuta();
+   public void aoGanhar();
+   
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`incitar` | `Incita outro ser para uma disputa`
+`passoLuta` | `Realiza um ciclo da luta, caso haja uma'
+'aoGanhar' | 'Realiza as rotinas definidas caso o ser ganhe a disputa'
+
+
+
+### Interface `IComensal`
+
+`Um "ser" capaz de se alimentar e de criar uma disputa com outro "ser"`
+
+~~~java
+public interface IComensal extends IPropriedades{
+
+   public void aoTerminarDeComer(float energiaAlimento);
+   public IDiputa getDisputa();
+   
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`aoTerminarDeComer` | `Realiza as rotinas definidas para quando o comensal termina de consumir um alimento`
+`getDisputa` | `Responsável por gerir a disputa por um alimento caso já haja um ser se alimentando'
+
+
+
+
+### Interface `IAlimento`
+
+`Um tipo de objeto que fornece energia e que pode gerar disputa`
+
+~~~java
+public interface IAlimento extends IObjeto{
+
+   public IComensal getAlimentando();
+   public void setAlimentando(IComensal c);
+   
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`getAlimentando` | `Retorna um comensal que está sendo alimentado, caso não haja, retorna nulo`
+`setAlimentando` | `Começa a alimentar um dado comensal. Caso já haja um comensal sendo alimentado, inicia-se uma disputa entre ambos'
+
+
+
+### Interface `IReproducao`
+
+`Realiza a reprodução com outro ser`
+
+~~~java
+public interface IReproducao{
+
+   public Gene getGene();
+   public int escolherParceiro(IReproducao[] x);
+   public Gene aoReproduzir(IReproducao x);
+   
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`getGene` | `Retorna o gene do ser que solicita a repordução`
+`escolherParceiro` | `Escolhe um entre uma lista de possiveis parceiros, e retorna o seu indice na lista'
+'aoReproduzir'|'Rotinas realizadas ao reproduzir, retornando o gene do ser resultante'
+
+### Interface `IIndividuo`
+
+`Tipo de objeto que tem as caracteristicas de um ser comensal e que pode se reproduzir`
+
+~~~java
+public interface IIndividuo extends IObjeto, IComensal, IReproducao{
+
+   public Gene getGene();
+   public int escolherParceiro(IReproducao[] x);
+   public Gene aoReproduzir(IReproducao x);
+   
+}
+~~~
+
+
+### Interface `ICasa`
+
+`Contêiner para um objeto`
+
+~~~java
+public interface ICasa{
+
+   public IObjetos[] getObjetos();
+   public void adicionar(IObjeto o);
+   public void remover(IObjeto o);
+   
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`getObjetos` | `Retorna os objetos presentes na casa`
+`adicionar` | `Adiciona um dado objeto na casa'
+'remover' | 'Remove um dado objeto da casa'
+
+
+
+### Interface `IAmbiente`
+
+`Interface que gere as relações entre diferentes objetos num dado despaço celular`
+
+~~~java
+public interface IAmbiente extends IPropriedades{
+
+   public void ICasa[][] casas();
+   public void mover(IObjeto i, Posicao alvo);
+   public void passo();
+   public void proximaRodada();
+   public void reiniciar();
+   
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`casas` | `Retorna as casas que compõe o ambiente`
+`mover` | `Move um dado objeto para uma dada posição'
+'passo' | 'Realiza um ciclo da simulação, e as rotinas relacionadas'
+'proximaRodada' | 'Realiza as rotinas relacionadas a troca de rodada, que se dá após um certo número de passos'
+'reiniciar' | 'Reinicia a simulação'
+
+
+
 # Plano de Exceções
 
 ## Diagrama da hierarquia de exceções
 `<Elabore um diagrama com a hierarquia de exceções como detalhado abaixo>`
-
+   
 ![Hierarquia Exceções](exception-hierarchy.png)
 
 ## Descrição das classes de exceção
