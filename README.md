@@ -435,36 +435,14 @@ Método | Objetivo
 # Plano de Exceções
 
 ## Diagrama da hierarquia de exceções
-`<Elabore um diagrama com a hierarquia de exceções como detalhado abaixo>`
    
-![Hierarquia Exceções](exception-hierarchy.png)
+![Hierarquia Exceções](docs/exception-hierarchy.png)
 
 ## Descrição das classes de exceção
 
-`<Monte uma tabela descritiva seguindo o exemplo>:`
-
 Classe | Descrição
 ----- | -----
-DivisaoInvalida | Engloba todas as exceções de divisões não aceitas.
-DivisaoInutil | Indica que a divisão por 1 é inútil.
-DivisaoNaoInteira | Indica uma divisão não inteira.
-
-
-# Componentes
-
-* [CDisplay](docs/CDisplay.md)
-* [CCasa](docs/CCasa.md)
-* [CAmbiente](docs/CAmbiente.md)
-* [CAlimento](docs/CAlimento.md)
-* [CIndividuo](docs/CIndividuo.md)
-  * [CComensal](docs/CComensal.md)
-  * [CDisputa](docs/CDisputa.md)
-  * [CReproducao](docs/CReproducao.md)
-
-# Classes
-
-* [Gene](docs/Gene.md)
-* [Posicao](docs/Posicao.md)
-
-# Diagrama Geral de Componentes
-![Fluxo de Componentes](docs/img/diagramaGeral.jpg)
+'ErroPropriedade' | 'Engloba todas as exceções relacionadas a definição de propriedades'
+'ErroPropriedadeForaDeAlcance' | 'Indica que o valor definido está fora do alcance da propriedade
+'ErroPropriedadeTipoInvalido'| 'Indica que o valor definido não é de um tipo válido para aquela propriedade'
+'ErroPropriedadeIniexistente'|'Indica que a propriedade definida não existe'
