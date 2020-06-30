@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 public class Display implements IDisplay {
 	
-	public static String DIRETORIO = AppImagem.class.getResource(".").getPath();
+	public static String DIRETORIO = Display.class.getResource(".").getPath();
 	JFrame opening;
 	JFrame main;
 	JPanel p_openig;
