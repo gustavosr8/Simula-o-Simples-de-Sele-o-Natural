@@ -111,18 +111,15 @@ public class Display implements IDisplay {
 		opening.add(p_openig);
 		
 	}
-	
-	public void desenharCirculo(Posicao pos) {
+
+	@Override
+	public void desenharCirculo(Posicao pos, int raio, float r, float g, float b) {
+		// TODO Auto-generated method stub
 		
-		System.out.println(pos.x + " " +pos.y);
-		gbc.gridx = pos.x;
-		gbc.gridy=pos.y;
-		
-		tabuleiro.add(new JButton(circuloAzul), gbc);
 	}
 
 	@Override
-	public void desenharLosango(Posicao pos) {
+	public void desenharLosango(Posicao pos, int raio, float r, float g, float b) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -132,4 +129,6 @@ public class Display implements IDisplay {
 		// TODO Auto-generated method stub
 		
 	}
+	
+
 }
