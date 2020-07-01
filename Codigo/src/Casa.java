@@ -1,21 +1,30 @@
+import java.util.ArrayList;
 
 public class Casa implements ICasa {
 
-	@Override
+	
+	private ArrayList<IObjeto> objetos = new ArrayList<IObjeto>();
+		
+	
+	
+	
 	public IObjeto[] getObjetos() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return (IObjeto[]) objetos.toArray();
+	
 	}
 
-	@Override
+	
 	public void adicionar(IObjeto o) {
-		// TODO Auto-generated method stub
+		
+		objetos.add(o);
 		
 	}
 
-	@Override
+
 	public void remover(IObjeto o) {
-		// TODO Auto-generated method stub
+		
+		objetos.remove(o);
 		
 	}
 
