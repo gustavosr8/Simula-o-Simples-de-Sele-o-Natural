@@ -41,12 +41,12 @@ public void algoInteressante(…) {
 ~~~
 ***
 # Destaques de Pattern
-`<Destaque de patterns adotados pela equipe. Sugestão de estrutura:>`
 
-## Diagrama do Pattern
-`<Diagrama do pattern dentro do contexto da aplicação.>`
 
-## Código do Pattern
+## Data Access Object Pattern
+![DAOPattern](docs/DAOPattern.jpg)
+
+### Código do Pattern
 ~~~java
 // Recorte do código do pattern seguindo as mesmas diretrizes de outros destaques
 public void algoInteressante(…) {
@@ -55,7 +55,41 @@ public void algoInteressante(…) {
 }
 ~~~
 
-> <Explicação de como o pattern foi adotado e quais suas vantagens, referenciando o diagrama.>
+> O Pattern em questão foi criado para padronizar as operações de acesso e modificação de dados no programa, podendo deixar essas operações acessiveis ao usuário
+
+## Observer Pattern
+![Observer Pattern](docs/ObserverPattern.jpg)
+
+### Código do Pattern
+~~~java
+// Recorte do código do pattern seguindo as mesmas diretrizes de outros destaques
+public void algoInteressante(…) {
+   …
+   trechoInteressante = 100;
+}
+~~~
+
+> O Pattern em questão foi criado para generalizar a ocorrência de ações durante a execução da simulação
+
+## Composite Pattern
+![Composite Pattern](docs/CompositePattern.jpg)
+
+### Código do Pattern
+~~~java
+// Recorte do código do pattern seguindo as mesmas diretrizes de outros destaques
+public void algoInteressante(…) {
+   …
+   trechoInteressante = 100;
+}
+~~~
+
+> O Pattern em questão foi criado para generalizar a forma como as coisas serão apresentadas na tela do usuário
+
+
+
+
+
+
 ***
 # Diagramas
 
