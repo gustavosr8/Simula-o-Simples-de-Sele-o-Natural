@@ -1,5 +1,5 @@
 # Projeto 'Simulação Simples de Seleção Natural'
-
+***
 # Descrição Resumida do Projeto
 O projeto visa criar uma simulação na qual é possivel, de forma simplificada, observar como a seleção natural agiria sobre certos indivíduos a partir de características inicialmente estabelecidas.
 
@@ -39,7 +39,7 @@ public void algoInteressante(…) {
    trechoInteressante = 100;
 }
 ~~~
-
+***
 # Destaques de Pattern
 `<Destaque de patterns adotados pela equipe. Sugestão de estrutura:>`
 
@@ -56,7 +56,7 @@ public void algoInteressante(…) {
 ~~~
 
 > <Explicação de como o pattern foi adotado e quais suas vantagens, referenciando o diagrama.>
-
+***
 # Diagramas
 
 ## Diagrama Geral de Componentes
@@ -222,7 +222,7 @@ Interface agregadora do componente em Java:
 public interface IDisputa{
 }
 ~~~
-
+***
 ## Detalhamento das Interfaces
 
 ### Interface `IDisplay`
@@ -430,7 +430,7 @@ Método | Objetivo
 'proximaRodada' | 'Realiza as rotinas relacionadas a troca de rodada, que se dá após um certo número de passos'
 'reiniciar' | 'Reinicia a simulação'
 
-
+***
 
 # Plano de Exceções
 
