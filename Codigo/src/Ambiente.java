@@ -1,5 +1,7 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Ambiente implements IAmbiente {
+public class Ambiente implements IAmbiente, ActionListener {
 
 	@Override
 	public ICasa[][] casas() {
@@ -46,6 +48,12 @@ public class Ambiente implements IAmbiente {
 	@Override
 	public void setPropriedade(String nome, float valor) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		passo();
 		
 	}
 
