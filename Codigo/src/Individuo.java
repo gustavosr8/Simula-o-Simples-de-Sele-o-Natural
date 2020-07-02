@@ -55,10 +55,14 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		return 0;
 	}
 
-	@Override
 	public Gene aoReproduzir(IReproducao x) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Gene p1 = this.getGene();
+		Gene p2 = x.getGene();
+		
+		Gene filho = new Gene((p1.velocidade+p2.velocidade)/2, (p1.tamanho+p2.tamanho)/2, (p1.altruismo+p2.altruismo)/2);
+		
+		return filho;
 	}
 
 }
