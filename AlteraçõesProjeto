@@ -1,3 +1,12 @@
 Remover daqui após atualizar as altrações no projeto principal:
 
 -Mudei o parametro raio de IDisplay de int para float, e receber Color ao inves de varios int
+-Adicionei uma função remover ao IAmbiente
+-Adicionei funções getPosicao e aoMover ao IObjeto
+
+- A função passo() em IAmbiente retorna um boolean indicando se a rodada terminou.
+- Removi proximaRodada() e reiniciar() em IAmbiente.
+
+- Removi a função casas() do IAmbiente, e adicionei uma função maisProximo, que remove o
+objeto de certo tipo mais proximo de dada posição.
+- Removi o componente Casa e a interface Casa.
