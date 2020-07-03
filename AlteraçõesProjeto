@@ -15,3 +15,12 @@ objeto de certo tipo mais proximo de dada posição.
 - IDisputa mudou completamente
 - Em IAlimento, (get|set)Alimentando usam uma array de comensais.
 - Adicionei perderEnergia em IIndividuo
+- Adicionei IObjeto[] getObj(Posicao p), int getAltura(), int getLargura() em IAmbiente
+
+- Refatoramento do sistema de propriedades:
+- IPropriedades substituido por IPropHolder, com Prop[] props()
+- Prop é uma classe abstrata, tem os métodos getKey(), getValue() e setValue()
+- setValue() pode retornar ErroPropTipoInvalido ou ErroPropForaDeAlcance
+- Deletado ErroPropInexistente
+
+- Em gene, todos os itens agora são double.

@@ -1,11 +1,11 @@
 package com.github.gustavosr8.sssn.individuo;
 
 public class Gene {
-	public int velocidade;
-    public int tamanho;
-    public int altruismo;
+	public double velocidade;
+    public double tamanho;
+    public double altruismo;
     
-    public Gene(int velocidade, int tamanho, int altruismo) {
+    public Gene(double velocidade, double tamanho, double altruismo) {
     	this.velocidade = velocidade;
     	this.tamanho = tamanho;
     	this.altruismo = altruismo;

@@ -5,91 +5,30 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import com.github.gustavosr8.sssn.IObjeto;
-import com.github.gustavosr8.sssn.ui.props.ErroPropriedade;
-import com.github.gustavosr8.sssn.ui.props.ErroPropriedadeInexistente;
-import com.github.gustavosr8.sssn.ui.props.ErroPropriedadeTipoInvalido;
+import com.github.gustavosr8.sssn.ui.props.ErroProp;
+import com.github.gustavosr8.sssn.ui.props.ErroProp;
+import com.github.gustavosr8.sssn.ui.props.ErroPropTipoInvalido;
+import com.github.gustavosr8.sssn.ui.props.Prop;
+import com.github.gustavosr8.sssn.ui.props.PropBoolean;
+import com.github.gustavosr8.sssn.ui.props.PropDouble;
+import com.github.gustavosr8.sssn.ui.props.PropInt;
 
 public class Ambiente implements IAmbiente, ActionListener {
-	private ArrayList<IObjeto>[][] mCasas;
+	private ArrayList<IObjeto>[][] mCasas = (ArrayList<IObjeto>[][]) new ArrayList[25][25];
 
-	private int mAltura;
-	private int mLargura;
-	private int mPassosPorRodada;
-	private int mRepopularCom;
-	private boolean mRepopular;
+	private PropInt mNovaAltura = new PropInt("Altura", 25, 1, 255);
+	private PropInt mNovaLargura = new PropInt("Largura", 25, 1, 255);
+	private PropInt mPassosPorRodada = new PropInt("Passos por rodada", 10, 1, 10000);
+	private PropBoolean mRepopular = new PropBoolean("Repopular", false);
+	private PropInt mRepopularCom = new PropInt("PopulaÃ§Ã£o limite para repopular", 10, 0, 255);
 
-	private int mPassos;
+	private PropDouble mEnergiaPorAlimento = new PropDouble("Energia por alimento", 2.0, 0.0, 1e5);
+	private PropInt mDelayDeAlimento = new PropInt("Tempo de alimentaÃ§Ã£o", 3, 1, 100);
 
-	// IPropriedades
-	@Override
-	public String[] getPropriedades() {
-		String[] props = { "Altura", "Largura", "Passos por rodada", "Repopular ao início de cada rodada",
-				"População alvo da repopulação" };
-		return props;
-	}
+	private PropDouble mMinimoAltruismoParaAltruista = new PropDouble("AltruÃ­smo mÃ­nimo para ser altruÃ­sta", 1.0, 0.0, 1e5);
 
-	@Override
-	public String getPropriedade(String nome) throws ErroPropriedadeInexistente {
-		if (nome.equals("Altura")) {
-			return Integer.toString(mAltura);
-		} else if (nome.equals("Largura")) {
-			return Integer.toString(mLargura);
-		} else if (nome.equals("Passos por rodada")) {
-			return Integer.toString(mPassosPorRodada);
-		} else if (nome.equals("Repopular ao início de cada rodada")) {
-			return Boolean.toString(mRepopular);
-		} else if (nome.equals("População alvo da repopulação")) {
-			return Integer.toString(mRepopularCom);
-		} else {
-			throw new ErroPropriedadeInexistente("A propriedade " + nome + " não existe em Ambiente.");
-		}
-	}
-
-	@Override
-	public void setPropriedade(String nome, String valor) throws ErroPropriedade {
-		if (nome.equals("Altura")) {
-			try {
-				mAltura = Integer.parseInt(valor);
-			} catch (NumberFormatException e) {
-				throw new ErroPropriedadeTipoInvalido("A propriedade deve ser um número inteiro.");
-			}
-		} else if (nome.equals("Largura")) {
-			try {
-				mLargura = Integer.parseInt(valor);
-			} catch (NumberFormatException e) {
-				throw new ErroPropriedadeTipoInvalido("A propriedade deve ser um número inteiro.");
-			}
-		} else if (nome.equals("Passos por rodada")) {
-			try {
-				mPassosPorRodada = Integer.parseInt(valor);
-			} catch (NumberFormatException e) {
-				throw new ErroPropriedadeTipoInvalido("A propriedade deve ser um número inteiro.");
-			}
-		} else if (nome.equals("Repopular ao início de cada rodada")) {
-			try {
-				mRepopular = Boolean.parseBoolean(valor);
-			} catch (NumberFormatException e) {
-				throw new ErroPropriedadeTipoInvalido("A propriedade deve ser true / false.");
-			}
-		} else if (nome.equals("População alvo da repopulação")) {
-			try {
-				mRepopularCom = Integer.parseInt(valor);
-			} catch (NumberFormatException e) {
-				throw new ErroPropriedadeTipoInvalido("A propriedade deve ser um número inteiro.");
-			}
-		} else {
-			throw new ErroPropriedadeInexistente("A propriedade " + nome + " não existe em Ambiente.");
-		}
-	}
-
-	// ActionListener
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	// IAmbiente
+	private int mPassos = 0;
+	
 	@Override
 	public void mover(IObjeto i, Posicao alvo) {
 		mCasas[i.getPosicao().x][i.getPosicao().y].remove(i);
@@ -101,12 +40,12 @@ public class Ambiente implements IAmbiente, ActionListener {
 	public void remover(IObjeto i) {
 		mCasas[i.getPosicao().x][i.getPosicao().y].remove(i);
 	}
-	
+
 	@Override
 	public IObjeto maisProximo(Posicao p, Class<?> cls) {
 		IObjeto candidato = null;
 		double disCandidato = Double.POSITIVE_INFINITY;
-		
+
 		for (int i = 0; i < mCasas.length; i++)
 			for (int j = 0; j < mCasas[i].length; j++)
 				for (int k = 0; k < mCasas[i][j].size(); k++)
@@ -114,8 +53,23 @@ public class Ambiente implements IAmbiente, ActionListener {
 						disCandidato = new Posicao(i, j).distancia(p);
 						candidato = mCasas[i][j].get(k);
 					}
-		
+
 		return candidato;
+	}
+
+	// IPropriedades
+	@Override
+	public Prop[] props() {
+		Prop[] props = { mNovaAltura, mNovaLargura, mPassosPorRodada, mRepopular, mRepopularCom, mEnergiaPorAlimento,
+				mDelayDeAlimento, mMinimoAltruismoParaAltruista };
+		return props;
+	}
+
+	// ActionListener
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -131,5 +85,18 @@ public class Ambiente implements IAmbiente, ActionListener {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public IObjeto[] getObj(Posicao p) {
+		return (IObjeto[]) mCasas[p.x][p.y].toArray();
+	}
+
+	public int getAltura() {
+		return mCasas[0].length;
+	}
+
+	public int getLargura() {
+		return mCasas.length;
 	}
 }
