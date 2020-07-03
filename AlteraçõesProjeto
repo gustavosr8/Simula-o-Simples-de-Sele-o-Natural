@@ -1,5 +1,3 @@
 Remover daqui após atualizar as altrações no projeto principal:
 
-
--Mudei getPropriedade de Ipropriedade para retornar um float ao invés de String
--Mudei SetPropriedade para receber um float ao invés de uma String
+-Mudei o parametro raio de IDisplay de int para float, e receber Color ao inves de varios int

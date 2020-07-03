@@ -1,3 +1,4 @@
+package com.github.gustavosr8.sssn.individuo;
 
 public interface IDisputa {
 	

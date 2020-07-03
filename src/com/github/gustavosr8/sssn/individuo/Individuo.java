@@ -1,6 +1,12 @@
+package com.github.gustavosr8.sssn.individuo;
+
+import com.github.gustavosr8.sssn.IObjeto;
+import com.github.gustavosr8.sssn.ambiente.IAmbiente;
+import com.github.gustavosr8.sssn.ui.IDisplay;
+import com.github.gustavosr8.sssn.ui.props.ErroPropriedade;
+import com.github.gustavosr8.sssn.ui.props.ErroPropriedadeInexistente;
 
 public class Individuo implements IReproducao, IComensal, IObjeto {
-
 	@Override
 	public String[] getPropriedades() {
 		// TODO Auto-generated method stub
@@ -8,13 +14,13 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 	}
 
 	@Override
-	public float getPropriedade(String nome) {
+	public String getPropriedade(String nome) throws ErroPropriedadeInexistente {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public void setPropriedade(String nome, float valor) {
+	public void setPropriedade(String nome, String valor) throws ErroPropriedade {
 		// TODO Auto-generated method stub
 		
 	}
@@ -55,14 +61,9 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		return 0;
 	}
 
+	@Override
 	public Gene aoReproduzir(IReproducao x) {
-		
-		Gene p1 = this.getGene();
-		Gene p2 = x.getGene();
-		
-		Gene filho = new Gene((p1.velocidade+p2.velocidade)/2, (p1.tamanho+p2.tamanho)/2, (p1.altruismo+p2.altruismo)/2);
-		
-		return filho;
+		// TODO Auto-generated method stub
+		return null;
 	}
-
 }

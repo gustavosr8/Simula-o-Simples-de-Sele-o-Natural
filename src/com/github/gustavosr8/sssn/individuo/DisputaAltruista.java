@@ -1,10 +1,9 @@
+package com.github.gustavosr8.sssn.individuo;
 
 public class DisputaAltruista implements IDisputa {
-
 	@Override
 	public void incitar(IDisputa outro) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -16,7 +15,5 @@ public class DisputaAltruista implements IDisputa {
 	@Override
 	public void aoGanhar() {
 		// TODO Auto-generated method stub
-		
 	}
-
 }

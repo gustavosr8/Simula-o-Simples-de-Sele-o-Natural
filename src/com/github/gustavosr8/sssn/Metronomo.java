@@ -1,3 +1,4 @@
+package com.github.gustavosr8.sssn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

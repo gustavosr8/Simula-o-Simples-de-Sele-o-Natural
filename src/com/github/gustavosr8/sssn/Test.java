@@ -1,3 +1,4 @@
+package com.github.gustavosr8.sssn;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
