@@ -1,9 +1,13 @@
 package com.github.gustavosr8.sssn.individuo;
 
-public interface IDisputa {
-	
-	public void incitar(IDisputa outro);
-    public boolean passoLuta();
-    public void aoGanhar();
+import com.github.gustavosr8.sssn.alimento.IAlimento;
+import com.github.gustavosr8.sssn.ambiente.IAmbiente;
 
+public interface IDisputa {
+	public void conflitar(IAmbiente ambiente, IAlimento alimentoDisputado, IIndividuo ind, IIndividuo outro);
+
+	public void aoPediremParaCompartilhar(IAmbiente ambiente, IAlimento alimentoDisputado, IIndividuo ind, IIndividuo outro);
+	
+	// Boolean: false se fugiu da luta ou perdeu.
+    public boolean passoLuta(IAmbiente ambiente, IIndividuo ind);
 }

@@ -10,3 +10,8 @@ Remover daqui após atualizar as altrações no projeto principal:
 - Removi a função casas() do IAmbiente, e adicionei uma função maisProximo, que remove o
 objeto de certo tipo mais proximo de dada posição.
 - Removi o componente Casa e a interface Casa.
+
+- Adicionei terminarDeComerImediatamente(IAmbiente) em IAlimento
+- IDisputa mudou completamente
+- Em IAlimento, (get|set)Alimentando usam uma array de comensais.
+- Adicionei perderEnergia em IIndividuo

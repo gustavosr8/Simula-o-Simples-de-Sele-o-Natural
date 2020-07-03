@@ -1,19 +1,32 @@
 package com.github.gustavosr8.sssn.individuo;
 
+import com.github.gustavosr8.sssn.alimento.IAlimento;
+import com.github.gustavosr8.sssn.ambiente.IAmbiente;
+
 public class DisputaAgressivo implements IDisputa {
 	@Override
-	public void incitar(IDisputa outro) {
-		// TODO Auto-generated method stub
+	public void conflitar(IAmbiente ambiente, IAlimento alimentoDisputado, IIndividuo ind, IIndividuo outro) {
+		IIndividuo ganhador = null;
+		while (ganhador == null) {
+			if (!outro.getDisputa().passoLuta(ambiente, outro))
+				ganhador = ind;
+			else if (!passoLuta(ambiente, ind))
+				ganhador = outro;
+		}
+
+		IComensal[] alimentando = { ganhador };
+		alimentoDisputado.setAlimentando(alimentando);
+		alimentoDisputado.terminarDeComerImediatamente(ambiente);
 	}
 
 	@Override
-	public boolean passoLuta() {
-		// TODO Auto-generated method stub
-		return false;
+	public void aoPediremParaCompartilhar(IAmbiente ambiente, IAlimento alimentoDisputado, IIndividuo ind,
+			IIndividuo outro) {
+		alimentoDisputado.terminarDeComerImediatamente(ambiente);
 	}
 
 	@Override
-	public void aoGanhar() {
-		// TODO Auto-generated method stub
+	public boolean passoLuta(IAmbiente ambiente, IIndividuo ind) {
+		return ind.perderEnergia(ambiente, 1f);
 	}
 }

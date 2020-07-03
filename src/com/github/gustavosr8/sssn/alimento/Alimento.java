@@ -10,24 +10,33 @@ import com.github.gustavosr8.sssn.ui.props.ErroPropriedade;
 import com.github.gustavosr8.sssn.ui.props.ErroPropriedadeInexistente;
 import com.github.gustavosr8.sssn.ui.props.ErroPropriedadeTipoInvalido;
 
-public class Alimento implements IAlimento {
+public class Alimento implements IAlimento {	
 	private float mEnergia;
 	private int mDelayAlimentar; // tempo que um indivíduo fica se alimentando
 	
 	private Posicao mPosicao;
 	
-	private IComensal mAlimentando;
+	private IComensal[] mAlimentando;
 	private int mPassosAlimentando; // tempo que alimentando está se alimentando
 	
 	// IAlimento
 	@Override
-	public IComensal getAlimentando() {
+	public IComensal[] getAlimentando() {
 		return mAlimentando;
 	}
 
 	@Override
-	public void setAlimentando(IComensal c) {
+	public void setAlimentando(IComensal[] c) {
 		mAlimentando = c;
+	}
+	
+	@Override
+	public void terminarDeComerImediatamente(IAmbiente ambiente) {
+		mPassosAlimentando = 0;
+		ambiente.remover(this);
+		for (int i = 0; i < mAlimentando.length; i++)
+			mAlimentando[i].aoTerminarDeComer(mEnergia / mAlimentando.length);
+		mAlimentando = null;
 	}
 
 	// IObjeto
@@ -42,10 +51,8 @@ public class Alimento implements IAlimento {
 	public void passo(IAmbiente ambiente) {
 		if (mAlimentando != null) {
 			mPassosAlimentando++;
-			if (mPassosAlimentando == mDelayAlimentar) {
-				ambiente.remover(this);
-				mAlimentando.aoTerminarDeComer(mEnergia);
-			}
+			if (mPassosAlimentando == mDelayAlimentar)
+				terminarDeComerImediatamente(ambiente);
 		}
 	}
 	
