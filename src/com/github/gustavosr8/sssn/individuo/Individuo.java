@@ -5,21 +5,55 @@ import com.github.gustavosr8.sssn.ambiente.IAmbiente;
 import com.github.gustavosr8.sssn.ambiente.Posicao;
 import com.github.gustavosr8.sssn.ui.IDisplay;
 import com.github.gustavosr8.sssn.ui.props.ErroProp;
+import com.github.gustavosr8.sssn.ui.props.ErroPropTipoInvalido;
 import com.github.gustavosr8.sssn.ui.props.Prop;
+import com.github.gustavosr8.sssn.ui.props.PropDouble;
 import com.github.gustavosr8.sssn.ui.props.ErroProp;
 
 public class Individuo implements IReproducao, IComensal, IObjeto {
-	Gene mGene;
+	private PropDouble mGeneVelocidade;
+	private PropDouble mGeneTamanho;
+	private PropDouble mGeneAltruismo;
+	
+	private PropDouble mVelocidade;
+	private PropDouble mTamanho;
+	private PropAltruismo mPropAltruismo;
+	
+	private IDisputa mDisputa;
 
-	int mVelocidade;
-	int mTamanho;
-	IDisputa mIDisputa;
+	private class PropAltruismo extends Prop {
+		@Override
+		public String getKey() {
+			return "Altruísta";
+		}
 
+		@Override
+		public String getValue() {
+			if (mDisputa instanceof DisputaAltruista)
+				return Boolean.toString(true);
+			else if (mDisputa instanceof DisputaAgressivo)
+				return Boolean.toString(false);
+			else
+				return "?";
+		}
+
+		@Override
+		public void setValue(String x) throws ErroProp {
+			try {
+				boolean b = Boolean.parseBoolean(x);
+				mDisputa = b ? new DisputaAltruista() : new DisputaAgressivo();
+			} catch (NumberFormatException e) {
+				throw new ErroPropTipoInvalido("A propriedade deve ser true/false");
+			}
+		}
+	}
+	
 	@Override
 	public Prop[] props() {
-		// TODO Auto-generated method stub
+		Prop[] props = { mVelocidade, mTamanho, mPropAltruismo, mGeneVelocidade, mGeneTamanho, mGeneAltruismo };
 		return null;
 	}
+	
 	@Override
 	public void exibir(IDisplay display) {
 		// TODO Auto-generated method stub
@@ -45,11 +79,12 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		// TODO Auto-generated method stub
 		
 	}
+	
 	@Override
 	public IDisputa getDisputa() {
-		// TODO Auto-generated method stub
-		return null;
+		return mDisputa;
 	}
+	
 	@Override
 	public Gene getGene() {
 		// TODO Auto-generated method stub
