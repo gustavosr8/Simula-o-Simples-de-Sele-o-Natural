@@ -43,7 +43,7 @@ public void algoInteressante(…) {
 
 
 ## Data Access Object Pattern
-![DAOPattern](docs/DAOPattern.jpg)
+![DAOPattern](docs/img/DAOPattern.jpg)
 
 ### Código do Pattern
 ~~~java
@@ -57,7 +57,7 @@ public void algoInteressante(…) {
 > O Pattern em questão foi criado para padronizar as operações de acesso e modificação de dados no programa, podendo deixar essas operações acessiveis ao usuário
 
 ## Observer Pattern
-![Observer Pattern](docs/ObserverPattern.jpg)
+![Observer Pattern](docs/img/ObserverPattern.jpg)
 
 ### Código do Pattern
 ~~~java
@@ -71,7 +71,7 @@ public void algoInteressante(…) {
 > O Pattern em questão foi criado para generalizar a ocorrência de ações durante a execução da simulação
 
 ## Composite Pattern
-![Composite Pattern](docs/CompositePattern.jpg)
+![Composite Pattern](docs/img/CompositePattern.jpg)
 
 ### Código do Pattern
 ~~~java
@@ -94,7 +94,7 @@ public void algoInteressante(…) {
 
 ## Diagrama Geral de Componentes
 
-> ![Diagrama Geral de Componentes](docs/DiagramaGeralComponentes.jpg)
+> ![Diagrama Geral de Componentes](docs/img/DiagramaGeralComponentes.jpg)
 
 > No diagrama apresentado, podemos ver como os componentes se comunicam entre si, e também como é feita a comunicação com o usuário
 
@@ -104,7 +104,7 @@ public void algoInteressante(…) {
 
 > Componente responsável pela interface gráfica do programa.
 
-![Display](docs/ComponenteDisplay.jpg)
+![Display](docs/img/ComponenteDisplay.jpg)
 
 **Ficha Técnica**
 item | detalhamento
@@ -117,7 +117,7 @@ Interfaces | IDisplay
 
 Interfaces associadas a esse componente:
 
-![IDisplay](docs/IDisplay.jpg)
+![IDisplay](docs/img/IDisplay.jpg)
 
 Interface agregadora do componente em Java:
 
@@ -129,7 +129,7 @@ public interface IDisplay {
 
 > Tipo de objeto que fornece energia para o indivíduo e que pode gerar uma disputa
 
-![Alimento](docs/ComponenteAlimento.jpg)
+![Alimento](docs/img/ComponenteAlimento.jpg)
 
 **Ficha Técnica**
 item | detalhamento
@@ -142,7 +142,7 @@ Interfaces | IAlimento
 
 Interfaces associadas a esse componente:
 
-![IAlimento](docs/IAlimento.jpg)
+![IAlimento](docs/img/IAlimento.jpg)
 
 Interface agregadora do componente em Java:
 
@@ -155,7 +155,7 @@ public interface IAlimento extends IObjeto {
 
 > Meio celular no qual ocorrem as interações entre os demais componentes
 
-![Ambiente](docs/ComponenteAmbiente.jpg)
+![Ambiente](docs/img/ComponenteAmbiente.jpg)
 
 **Ficha Técnica**
 item | detalhamento
@@ -168,7 +168,7 @@ Interfaces | IAmbiente
 
 Interfaces associadas a esse componente:
 
-![IAmbiente](docs/IAmbiente.jpg)
+![IAmbiente](docs/img/IAmbiente.jpg)
 
 Interface agregadora do componente em Java:
 
@@ -181,7 +181,7 @@ public interface IAmbiente extends IPropriedades {
 
 > Espaço no qual pode haver um objeto ou estar vazio
 
-![Casa](docs/ComponenteCasa.jpg)
+![Casa](docs/img/ComponenteCasa.jpg)
 
 **Ficha Técnica**
 item | detalhamento
@@ -194,7 +194,7 @@ Interfaces | ICasa
 
 Interfaces associadas a esse componente:
 
-![ICasa](docs/ICasa.jpg)
+![ICasa](docs/img/ICasa.jpg)
 
 Interface agregadora do componente em Java:
 
@@ -208,7 +208,7 @@ public interface ICasa {
 
 > Um tipo de objeto no qual o projeto se baseia, sendo importante as interações entre diferentes indivíduos
 
-![Individuo](docs/ComponenteIndividuo.jpg)
+![Individuo](docs/img/ComponenteIndividuo.jpg)
 
 **Ficha Técnica**
 item | detalhamento
@@ -221,7 +221,7 @@ Interfaces | IIndividuo
 
 Interfaces associadas a esse componente:
 
-![IIndividuo](docs/IIndividuo.jpg)
+![IIndividuo](docs/img/IIndividuo.jpg)
 
 Interface agregadora do componente em Java:
 
@@ -234,7 +234,7 @@ public interface IIndividuo extends IObjeto, IComensal, IReproducao {
 
 >Componentes relacionados à disputa por um objeto, que podem ser agressivas, na qual um dos interagentes é eliminado, e altruista, na qual um dos interagentes cede o objeto disputado
 
-[Disputa](docs/ComponenteDisputa.jpg)
+[Disputa](docs/img/ComponenteDisputa.jpg)
 
 **Ficha Técnica**
 item | detalhamento
@@ -247,7 +247,7 @@ Interfaces | IDisputa
 
 Interfaces associadas a esse componente:
 
-![IDisputa](docs/IDisputa.jpg)
+![IDisputa](docs/img/IDisputa.jpg)
 
 Interface agregadora do componente em Java:
 
@@ -469,7 +469,7 @@ Método | Objetivo
 
 ## Diagrama da hierarquia de exceções
    
-![Hierarquia Exceções](docs/exception-hierarchy.png)
+![Hierarquia Exceções](docs/img/exception-hierarchy.png)
 
 ## Descrição das classes de exceção
 
