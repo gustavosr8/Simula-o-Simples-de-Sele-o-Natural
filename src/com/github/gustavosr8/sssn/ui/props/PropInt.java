@@ -30,7 +30,7 @@ public class PropInt extends Prop {
 	@Override
 	public void setValue(String x) throws ErroProp {
 		try {
-			double y = Integer.parseInt(x);
+			int y = Integer.parseInt(x);
 			if (y >= mMin && y <= mMax)
 				mVal = y;
 			else
