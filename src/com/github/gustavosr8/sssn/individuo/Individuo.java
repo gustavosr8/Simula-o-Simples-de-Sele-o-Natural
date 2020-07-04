@@ -1,6 +1,7 @@
 package com.github.gustavosr8.sssn.individuo;
 
 import com.github.gustavosr8.sssn.IObjeto;
+import com.github.gustavosr8.sssn.alimento.Alimento;
 import com.github.gustavosr8.sssn.ambiente.IAmbiente;
 import com.github.gustavosr8.sssn.ambiente.Posicao;
 import com.github.gustavosr8.sssn.ui.IDisplay;
@@ -19,7 +20,12 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 	private PropDouble mTamanho;
 	private PropAltruismo mPropAltruismo;
 	
+	private PropDouble mGastoEnergetico;
+	private PropDouble mEnergiaArmazenada;
+	
 	private IDisputa mDisputa;
+	
+	private Posicao mPosicao;
 
 	private class PropAltruismo extends Prop {
 		@Override
@@ -50,8 +56,8 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 	
 	@Override
 	public Prop[] props() {
-		Prop[] props = { mVelocidade, mTamanho, mPropAltruismo, mGeneVelocidade, mGeneTamanho, mGeneAltruismo };
-		return null;
+		Prop[] props = { mVelocidade, mTamanho, mPropAltruismo, mGeneVelocidade, mGeneTamanho, mGeneAltruismo, mGastoEnergetico, mEnergiaArmazenada };
+		return props;
 	}
 	
 	@Override
@@ -59,19 +65,48 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		// TODO Auto-generated method stub
 		
 	}
+	
 	@Override
 	public void passo(IAmbiente ambiente) {
-		// TODO Auto-generated method stub
+		IObjeto alvo = null;
+		alvo = ambiente.maisProximo(getPosicao(), this);
+		Posicao futura = new Posicao(getPosicao().x,getPosicao().y);
+		
+		if(alvo.getPosicao().equals(getPosicao())) {
+			if(alvo instanceof Alimento) {
+				if(((Alimento) alvo).getAlimentando() != null) {
+					IComensal[] outro = ((Alimento) alvo).getAlimentando();
+					//criar uma disputa entre ambos
+				}
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
 		
 	}
+	
+	
+	
 	@Override
 	public Posicao getPosicao() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return mPosicao;
+	
 	}
+	
+	
 	@Override
 	public void aoMover(Posicao f) {
-		// TODO Auto-generated method stub
+		
+		int DeltaX = Math.abs(f.x - getPosicao().x);
+		int DeltaY = Math.abs(f.y - getPosicao().y);
+		
+		mEnergiaArmazenada -= ((DeltaY+DeltaX)*mGastoEnergetico.get());
 		
 	}
 	@Override
