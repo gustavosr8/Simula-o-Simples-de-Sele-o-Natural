@@ -5,9 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import com.github.gustavosr8.sssn.IObjeto;
-import com.github.gustavosr8.sssn.ui.props.ErroProp;
-import com.github.gustavosr8.sssn.ui.props.ErroProp;
-import com.github.gustavosr8.sssn.ui.props.ErroPropTipoInvalido;
 import com.github.gustavosr8.sssn.ui.props.Prop;
 import com.github.gustavosr8.sssn.ui.props.PropBoolean;
 import com.github.gustavosr8.sssn.ui.props.PropDouble;
@@ -79,7 +76,7 @@ public class Ambiente implements IAmbiente, ActionListener {
 				for (int k = 0; k < mCasas[i][j].size(); k++)
 					mCasas[i][j].get(k).passo(this);
 		mPassos++;
-		if (mPassos >= mPassosPorRodada) {
+		if (mPassos >= mPassosPorRodada.get()) {
 			mPassos = 0;
 			// TODO repopular
 			return true;
