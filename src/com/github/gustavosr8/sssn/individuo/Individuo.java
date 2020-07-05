@@ -68,6 +68,7 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 	
 	@Override
 	public void passo(IAmbiente ambiente) {
+		
 		IObjeto alvo = null;
 		alvo = ambiente.maisProximo(getPosicao(), this);
 		Posicao futura = new Posicao(getPosicao().x,getPosicao().y);
@@ -81,16 +82,40 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 			}
 		}
 		
+		int DeltaX = (alvo.getPosicao().x - getPosicao().x);
+		int DeltaY = (alvo.getPosicao().y - getPosicao().y);
 		
+		if(DeltaX == 0) {
+			if(DeltaY>0) {
+				futura.y--;
+			}else {
+				futura.y++;
+			}
+		}else if(DeltaY==0) {
+			
+			if(DeltaX>0) {
+				futura.x--;
+			}else {
+				futura.x++;
+			}
+		}else if(DeltaX>0) {
+			futura.x--;
+			if(DeltaY>0) {
+				futura.y--;
+			}else {
+				futura.y++;
+			}
+		}else if(DeltaX<0) {
+			futura.x++;
+			if(DeltaY>0) {
+				futura.y--;
+			}else {
+				futura.y++;
+			}
+		}
 		
-		
-		
-		
-		
-		
+		aoMover(futura);		
 	}
-	
-	
 	
 	@Override
 	public Posicao getPosicao() {
@@ -101,17 +126,22 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 	
 	
 	@Override
-	public void aoMover(Posicao f) {
+	public void aoMover(Posicao f){
 		
 		int DeltaX = Math.abs(f.x - getPosicao().x);
 		int DeltaY = Math.abs(f.y - getPosicao().y);
 		
-		mEnergiaArmazenada -= ((DeltaY+DeltaX)*mGastoEnergetico.get());
+		Double NEnergia = mEnergiaArmazenada.get() - ((DeltaY+DeltaX)*mGastoEnergetico.get());
+		
+		mEnergiaArmazenada.setValue(Double.toString(NEnergia));
+		mPosicao = f;
 		
 	}
+	
 	@Override
 	public void aoTerminarDeComer(double e) {
-		// TODO Auto-generated method stub
+		
+		mEnergiaArmazenada.setValue(Double.toString(mEnergiaArmazenada.get()+e));
 		
 	}
 	
