@@ -37,6 +37,11 @@ import com.github.gustavosr8.sssn.ui.props.IPropHolder;
 import com.github.gustavosr8.sssn.ui.props.Prop;
 
 public class Janela implements TimerListener {
+	private static final int EDIT_CURSOR = 0;
+	private static final int EDIT_DELETAR = 1;
+	private static final int EDIT_ADD_IND = 2;
+	private static final int EDIT_ADD_ALIMENTO = 3;
+	
 	private DefaultTableModel mPropTable;
 	private Prop[] mShownProps;
 	private JFrame mFrame;
@@ -44,9 +49,30 @@ public class Janela implements TimerListener {
 	private JButton mButtonPular;
 	private Display mDisplay;
 	
-	boolean mPlaying = false;
+	private boolean mPlaying = false;
+	private ModeButton mSelectedBtnMode;
+	private int mMode = EDIT_CURSOR;
 	
 	private static DecimalFormat df = new DecimalFormat("#.##");
+	
+	private class ModeButton extends JButton implements ActionListener {
+		private int mBtnMode;
+		
+		ModeButton(int mode, String texto) {
+			super(texto);
+			mBtnMode = mode;
+			addActionListener(this);
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			mMode = mBtnMode;
+			mSelectedBtnMode.setEnabled(true);
+			mSelectedBtnMode = this;
+			setEnabled(false);
+			getRootPane().requestFocus();
+		}
+	}
 	
 	public Janela(App app) {
 		FlatDarkLaf.install();
@@ -56,30 +82,61 @@ public class Janela implements TimerListener {
 		mFrame = new JFrame("Simulação simples de seleção natural");
 		mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		mDisplay = new Display(app.getAmbiente(), new OnClickPosicao() {
+		mDisplay = new Display(app, new DisplayClickListener() {
 			@Override
 			public void onClick(MouseEvent e, Posicao pos) {
 				IObjeto[] obj = app.getAmbiente().getObj(pos);
-				if (obj.length == 0) {
-					setProps(app.getAmbiente());
-				} else if (obj.length == 1) {
-					setProps(obj[0]);
-				} else {
-					JPopupMenu menu = new JPopupMenu();
-					for (int i = 0; i < obj.length; i++) {
-						IObjeto objeto = obj[i];
-						String nome = objeto.getNome() + " (" + Integer.toString(i + 1) + ")";
-						JMenuItem item = new JMenuItem(nome);
-						item.addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								setProps(objeto);
-							}
-						});
-						menu.add(item);
+				switch (mMode) {
+				case EDIT_CURSOR:
+					if (obj.length == 0) {
+						setProps(app.getAmbiente());
+					} else if (obj.length == 1) {
+						setProps(obj[0]);
+					} else {
+						JPopupMenu menu = new JPopupMenu();
+						for (int i = 0; i < obj.length; i++) {
+							IObjeto objeto = obj[i];
+							String nome = objeto.getNome() + " (" + Integer.toString(i + 1) + ")";
+							JMenuItem item = new JMenuItem(nome);
+							item.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									setProps(objeto);
+								}
+							});
+							menu.add(item);
+						}
+						menu.show(e.getComponent(), e.getX(), e.getY());
 					}
-					menu.show(e.getComponent(), e.getX(), e.getY());
+					break;
+				case EDIT_DELETAR:
+					if (obj.length == 1) {
+						app.getAmbiente().remover(obj[0]);
+					} else if (obj.length != 0) {
+						JPopupMenu menu = new JPopupMenu();
+						for (int i = 0; i < obj.length; i++) {
+							IObjeto objeto = obj[i];
+							String nome = objeto.getNome() + " (" + Integer.toString(i + 1) + ")";
+							JMenuItem item = new JMenuItem(nome);
+							item.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									app.getAmbiente().remover(objeto);
+								}
+							});
+							menu.add(item);
+						}
+						menu.show(e.getComponent(), e.getX(), e.getY());
+					}
+					break;
+				case EDIT_ADD_IND:
+					app.getAmbiente().adicionarIndividuoEm(pos);
+					break;
+				case EDIT_ADD_ALIMENTO:
+					app.getAmbiente().adicionarAlimentoEm(pos);
+					break;
 				}
+				mDisplay.repaint();
 			}
 		});
 
@@ -152,19 +209,6 @@ public class Janela implements TimerListener {
 		cabecalho.add(cabecalho2);
 		cabecalho.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-		JButton buttonPropsAmbiente = new JButton("Propriedades do ambiente");
-		buttonPropsAmbiente.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setProps(app.getAmbiente());
-				mFrame.getContentPane().requestFocusInWindow();
-			}
-		});
-
-		JPanel rodape = new JPanel();
-		rodape.setLayout(new GridLayout(1, 1));
-		rodape.add(buttonPropsAmbiente);
-
 		JTable table = new JTable(new DefaultTableModel(0, 2) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -188,14 +232,39 @@ public class Janela implements TimerListener {
 			}
 		});
 		mPropTable = (DefaultTableModel) table.getModel();
+		
+		JButton reset = new JButton("Reiniciar");
+		reset.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				app.getAmbiente().reiniciar();
+				mDisplay.repaint();
+				setProps(app.getAmbiente());
+			}
+		});
 
 		JPanel dataPanel = new JPanel();
 		dataPanel.setLayout(new BorderLayout());
 		dataPanel.add(cabecalho, BorderLayout.PAGE_START);
 		dataPanel.add(table, BorderLayout.CENTER);
-		dataPanel.add(rodape, BorderLayout.PAGE_END);
+		dataPanel.add(reset, BorderLayout.PAGE_END);
+		
+		JPanel modes = new JPanel();
+		modes.setLayout(new GridLayout(1, 4));
+		ModeButton mode1 = new ModeButton(EDIT_CURSOR, "Selecionar");
+		mSelectedBtnMode = mode1;
+		mode1.setEnabled(false);
+		modes.add(mode1);
+		modes.add(new ModeButton(EDIT_DELETAR, "Deletar"));
+		modes.add(new ModeButton(EDIT_ADD_IND, "Adicionar indivíduo"));
+		modes.add(new ModeButton(EDIT_ADD_ALIMENTO, "Adicionar alimento"));
+		
+		JPanel displayPanel = new JPanel();
+		displayPanel.setLayout(new BorderLayout());
+		displayPanel.add(modes, BorderLayout.PAGE_START);
+		displayPanel.add(mDisplay, BorderLayout.CENTER);
 
-		JSplitPane split = new JSplitPane(SwingConstants.VERTICAL, mDisplay, dataPanel);
+		JSplitPane split = new JSplitPane(SwingConstants.VERTICAL, displayPanel, dataPanel);
 		split.setOneTouchExpandable(true);
 		split.setDividerLocation(512);
 		split.setResizeWeight(0.5);
@@ -205,6 +274,7 @@ public class Janela implements TimerListener {
 		mFrame.pack();
 		mFrame.setVisible(true);
 		mFrame.setSize(1024, 700);
+		mFrame.requestFocus();
 
 		setProps(app.getAmbiente());
 	}
