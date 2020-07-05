@@ -51,6 +51,9 @@ public abstract class Prop {
 	public abstract void setValue(String x) throws ErroProp;
 }
 ~~~
+
+[Destaque](docs/img/Prop.jpg)
+
 ***
 # Destaques de Pattern
 
@@ -60,39 +63,42 @@ public abstract class Prop {
 
 ### Código do Pattern
 ~~~java
-// Recorte do código do pattern seguindo as mesmas diretrizes de outros destaques
-public void algoInteressante(…) {
-   …
-   trechoInteressante = 100;
+
+…
+
+public void setValue(String x) throws ErroProp {
+	try {
+		int y = Integer.parseInt(x);
+		if (y >= mMin && y <= mMax)
+			mVal = y;
+		else
+			throw new ErroPropForaDeAlcance("A propriedade deve estar entre " + mMin + " e " + mMax);
+	} catch (NumberFormatException e) {
+		throw new ErroPropTipoInvalido("A propriedade deve ser um inteiro");
+	}
 }
+
 ~~~
 
 > O Pattern em questão foi criado para padronizar as operações de acesso e modificação de dados no programa, podendo deixar essas operações acessiveis ao usuário
-
-## Observer Pattern
-![Observer Pattern](docs/img/ObserverPattern.jpg)
-
-### Código do Pattern
-~~~java
-// Recorte do código do pattern seguindo as mesmas diretrizes de outros destaques
-public void algoInteressante(…) {
-   …
-   trechoInteressante = 100;
-}
-~~~
-
-> O Pattern em questão foi criado para generalizar a ocorrência de ações durante a execução da simulação
 
 ## Composite Pattern
 ![Composite Pattern](docs/img/CompositePattern.jpg)
 
 ### Código do Pattern
 ~~~java
-// Recorte do código do pattern seguindo as mesmas diretrizes de outros destaques
-public void algoInteressante(…) {
-   …
-   trechoInteressante = 100;
-}
+
+…
+
+public void desenharCirculo(Posicao pos, double raio, Color cor) {
+	int r = (int) (raio * (double) mTamanhoCelula);
+
+	int x = pos.x * mTamanhoCelula + mTamanhoCelula / 2 + mDeltaX - r;
+	int y = pos.y * mTamanhoCelula + mTamanhoCelula / 2 + mDeltaY - r;
+
+	mGraphics.setColor(cor);
+	mGraphics.fillOval(x, y, 2 * r, 2 * r);
+	}
 ~~~
 
 > O Pattern em questão foi criado para generalizar a forma como as coisas serão apresentadas na tela do usuário
@@ -102,7 +108,7 @@ public void algoInteressante(…) {
 ***
 # Conclusões e Trabalhos Futuros
 
-> Pode-se dizer que os objetivos iniciais do projeto foram alcançados. Criamos uma simulação na qual é possível observar como características de um certo individuo podem influenciar nas relações com outros indíviduos no mesmo ecossistema simulado, baseando-se em competição por alimentos e disputas pelos mesmos alimentos. Para melhorias futuras no projeto, gostaríamos de adicinar modelos estatísticos à simulação, para ter à mão dados mais concretos sobre a influência de certas características no tamanho total da população do ambiente, adicionando opções como plotagem de gráficos e criação de tabelas.
+> Pode-se dizer que os objetivos iniciais do projeto foram alcançados. Criamos uma simulação na qual é possível observar como características de um certo individuo podem influenciar nas relações com outros indíviduos no mesmo ecossistema simulado, baseando-se em competição por alimentos e disputas pelos mesmos alimentos. Para melhorias futuras no projeto, gostaríamos de adicinar modelos estatísticos à simulação, para ter à mão dados mais concretos sobre a influência de certas características no tamanho total da população do ambiente, adicionando opções como plotagem de gráficos e criação de tabelas. Também poderíamos deixar a simulação mais complexa, implementando um sistema de características mais complexo, chance de mutação na reprodução e especiação. Além disso, podem ser criados outros tipos de Objetos, que podem ser obstáculos, por exemplo.
 
 ***
 # Diagramas
@@ -134,12 +140,10 @@ Interfaces associadas a esse componente:
 
 ![IDisplay](docs/img/IDisplay.jpg)
 
-Interface agregadora do componente em Java:
+Interface agregadora do componente:
 
-~~~java
-public interface IDisplay {
-}
-~~~
+[IDisplay](#interface-idisplay)
+
 ## Componente `Alimento`
 
 > Tipo de objeto que fornece energia para o indivíduo e que pode gerar uma disputa
@@ -161,10 +165,7 @@ Interfaces associadas a esse componente:
 
 Interface agregadora do componente em Java:
 
-~~~java
-public interface IAlimento extends IObjeto {
-}
-~~~
+[IAlimento](#interface-ialimento)
 
 ## Componente `Ambiente`
 
@@ -185,12 +186,9 @@ Interfaces associadas a esse componente:
 
 ![IAmbiente](docs/img/IAmbiente.jpg)
 
-Interface agregadora do componente em Java:
+Interface agregadora do componente:
 
-~~~java
-public interface IAmbiente extends IPropHolder {
-}
-~~~
+[IAmbiente](#interface-iambiente)
 
 ## Componente `Individuo`
 
@@ -203,7 +201,7 @@ item | detalhamento
 ----- | -----
 Classe | `com.github.gustavosr8.sssn.individuo`	
 Autores | Nicolas e Gustavo
-Interfaces | IIndividuo
+Interfaces | IIndividuo 
 
 ### Interfaces
 
@@ -211,12 +209,9 @@ Interfaces associadas a esse componente:
 
 ![IIndividuo](docs/img/IIndividuo.jpg)
 
-Interface agregadora do componente em Java:
+Interface agregadora do componente:
 
-~~~java
-public interface IIndividuo extends IReproducao, IComensal, IObjeto {
-}
-~~~
+[IIndividuo](#interface-iindividuo)
 
 ## Componentes `DisputaAgressivo / DisputaAltruista`
 
@@ -239,10 +234,7 @@ Interfaces associadas a esse componente:
 
 Interface agregadora do componente em Java:
 
-~~~java
-public interface IDisputa{
-}
-~~~
+[IDisputa](#interface-idisputa)
 ***
 ## Detalhamento das Interfaces
 
@@ -391,20 +383,21 @@ Método | Objetivo
 -------| --------
 `getGene` | `Retorna o gene do ser que solicita a repordução`
 `escolherParceiro` | `Escolhe um entre uma lista de possiveis parceiros, e retorna o seu indice na lista`
-'aoReproduzir' | `Rotinas realizadas ao reproduzir, retornando o gene do ser resultante`
+`aoReproduzir` | `Rotinas realizadas ao reproduzir, retornando o gene do ser resultante`
 
 ### Interface `IIndividuo`
 
 `Tipo de objeto que tem as caracteristicas de um ser comensal e que pode se reproduzir`
 
 ~~~java	
-public interface IIndividuo extends IObjeto, IComensal, IReproducao{
-   
+public interface IIndividuo extends IObjeto, IComensal, IReproducao {
+	public double getEnergia();
 }
 ~~~
 
-> Nota-se que o IIndividuo não possui metodos próprios, porém une os metodos de IObjeto, IComensal e IReproducao
-
+Método | Objetivo
+-------| --------
+`getEnergia` | `Retorna a energia atual do individuo`
 
 ### Interface `IAmbiente`
 
@@ -416,15 +409,14 @@ public interface IAmbiente extends IPropHolder {
     public void mover(IObjeto i, Posicao alvo);
     public void remover(IObjeto i);
     
-    // Retorna o objeto de tipo cls mais próximo de p.
     public IObjeto maisProximo(Posicao p, Class<?> cls);
-    // true se a rodada terminou com este passo.
     public boolean passo();
-    // Retorna os objetos em dada posição
     public IObjeto[] getObj(Posicao p);
     
     public int getAltura();
     public int getLargura();
+
+    public void reiniciar();
 
 }
 ~~~
@@ -438,6 +430,7 @@ Método | Objetivo
 `getObj` | `Retorna os objetos em uma dada posição`
 `getAltura` | `Retorna a altura do ambiente`
 `getLargura` | `Retorna a largura de um ambiente`
+`reiniciar` | `Reinicia a simulação`
 ***
 
 # Tratamento de Erros
