@@ -41,8 +41,9 @@ public class Display extends JPanel implements IDisplay {
 			public void mouseReleased(MouseEvent e) {
 				mMouseX = e.getX();
 				mMouseY = e.getY();
-				if (mDragged && onClick != null)
-					onClick.onClick(e, posicaoSelecionada());
+				Posicao pos = posicaoSelecionada();
+				if (mDragged && onClick != null && pos != null)
+					onClick.onClick(e, pos);
 			}
 		});
 		addMouseMotionListener(new MouseMotionAdapter() {
