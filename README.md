@@ -9,8 +9,8 @@ O projeto visa criar uma simulação na qual é possivel, de forma simplificada,
 
 # Sumário
 
-* [apresentação do projeto](#videos)
-* [componentes](#diagramas)
+* [apresentação do projeto](#vídeos)
+* [diagrama de componentes](#diagramas)
 * [interfaces](#detalhamento-das-interfaces)
 * [Plano de Exceções](#tratamento-de-erros)
 
@@ -444,7 +444,7 @@ Método | Objetivo
 
 ## Diagrama da hierarquia de exceções
    
-![Hierarquia Exceções](docs/img/exception-hierarchy.png)
+![Hierarquia Exceções](docs/img/DiagramaErros.jpg)
 
 ## Descrição das classes de exceção
 
