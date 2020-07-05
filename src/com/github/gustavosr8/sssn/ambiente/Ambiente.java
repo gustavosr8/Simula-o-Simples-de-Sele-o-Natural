@@ -86,7 +86,12 @@ public class Ambiente implements IAmbiente, ActionListener {
 
 	@Override
 	public IObjeto[] getObj(Posicao p) {
-		return (IObjeto[]) mCasas[p.x][p.y].toArray();
+		ArrayList<IObjeto> o = mCasas[p.x][p.y];
+		IObjeto[] empty = {};
+		if (o != null)
+			return (IObjeto[]) o.toArray();
+		else
+			return empty;
 	}
 
 	public int getAltura() {

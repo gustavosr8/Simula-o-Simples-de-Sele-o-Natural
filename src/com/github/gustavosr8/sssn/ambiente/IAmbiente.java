@@ -7,11 +7,11 @@ public interface IAmbiente extends IPropHolder {
     public void mover(IObjeto i, Posicao alvo);
     public void remover(IObjeto i);
     
-    // Retorna o objeto de tipo cls mais próximo de p.
+    // Retorna o objeto de tipo cls mais prÃ³ximo de p.
     public IObjeto maisProximo(Posicao p, Class<?> cls);
     // true se a rodada terminou com este passo.
     public boolean passo();
-    // Retorna os objetos em dada posição
+    // Retorna os objetos em dada posiÃ§Ã£o
     public IObjeto[] getObj(Posicao p);
     
     public int getAltura();

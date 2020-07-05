@@ -16,17 +16,17 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
-import com.github.gustavosr8.sssn.ambiente.Ambiente;
+import com.github.gustavosr8.sssn.ambiente.IAmbiente;
 
 public class Janela {
 	private JFrame mFrame;
 	private Display mDisplay;
 
-	public Janela(Ambiente ambiente) {
+	public Janela(IAmbiente ambiente) {
 		mFrame = new JFrame("Simulação simples de seleção natural");
 		mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		mDisplay = new Display(null);
+		mDisplay = new Display(ambiente, null);
 
 		JSlider sliderVelocidade = new JSlider(0, 12, 4);
 		sliderVelocidade.setMajorTickSpacing(1);
@@ -65,7 +65,7 @@ public class Janela {
 		controles.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
 		String[] colunas = { "Propriedade", "Valor" };
-		Object[][] dados = { { "Teste", "1" } };
+		Object[][] dados = { { "Teste", "1" }, { "Teste", "2" } };
 		JTable tabela = new JTable(dados, colunas);
 		tabela.setSize(tabela.getPreferredSize());
 
