@@ -7,7 +7,14 @@ O projeto visa criar uma simulação na qual é possivel, de forma simplificada,
 * Gustavo de Souza dos Reis - 217425
 * Nicolas Bissoli Nattis - 222903
 
-# Vídeos do Projeto
+# Sumário
+
+* [apresentação do projeto](#videos)
+* [componentes](#diagramas)
+* [interfaces](#detalhamento-das-interfaces)
+* [Plano de Exceções](#tratamento-de-erros)
+
+# Vídeos
 
 ## Vídeo da Prévia
 > [Descrição do projeto em vídeo](https://youtu.be/5YG_XTaacII)
@@ -117,7 +124,7 @@ public void algoInteressante(…) {
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
-Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
+Classe | `com.github.gustavosr8.sssn.ui.Display`
 Autores | Nicolas e Gustavo
 Interfaces | IDisplay
 
@@ -142,7 +149,7 @@ public interface IDisplay {
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
-Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
+Classe | `com.github.gustavosr8.sssn.alimento.Alimento`
 Autores | Nicolas e Gustavo
 Interfaces | IAlimento
 
@@ -168,7 +175,7 @@ public interface IAlimento extends IObjeto {
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
-Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
+Classe | `com.github.gustavosr8.sssn.ambiente`
 Autores | Nicolas e Gustavo
 Interfaces | IAmbiente
 
@@ -181,36 +188,9 @@ Interfaces associadas a esse componente:
 Interface agregadora do componente em Java:
 
 ~~~java
-public interface IAmbiente extends IPropriedades {
+public interface IAmbiente extends IPropHolder {
 }
 ~~~
-
-## Componente `Casa`
-
-> Espaço no qual pode haver um objeto ou estar vazio
-
-![Casa](docs/img/ComponenteCasa.jpg)
-
-**Ficha Técnica**
-item | detalhamento
------ | -----
-Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
-Autores | Nicolas e Gustavo
-Interfaces | ICasa
-
-### Interfaces
-
-Interfaces associadas a esse componente:
-
-![ICasa](docs/img/ICasa.jpg)
-
-Interface agregadora do componente em Java:
-
-~~~java
-public interface ICasa {
-}
-~~~
-
 
 ## Componente `Individuo`
 
@@ -221,7 +201,7 @@ public interface ICasa {
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
-Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
+Classe | `com.github.gustavosr8.sssn.individuo`	
 Autores | Nicolas e Gustavo
 Interfaces | IIndividuo
 
@@ -234,11 +214,11 @@ Interfaces associadas a esse componente:
 Interface agregadora do componente em Java:
 
 ~~~java
-public interface IIndividuo extends IObjeto, IComensal, IReproducao {
+public interface IIndividuo extends IReproducao, IComensal, IObjeto {
 }
 ~~~
 
-## Componentes `DisputaAgressivo DisputaAltruista`
+## Componentes `DisputaAgressivo / DisputaAltruista`
 
 >Componentes relacionados à disputa por um objeto, que podem ser agressivas, na qual um dos interagentes é eliminado, e altruista, na qual um dos interagentes cede o objeto disputado
 
@@ -247,8 +227,8 @@ public interface IIndividuo extends IObjeto, IComensal, IReproducao {
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
-Classe | `<caminho completo da classe com pacotes>` <br> Exemplo: `pt.c08componentes.s20catalog.s10ds.DataSetComponent`
-Autores | Nicolas e Gustavo
+Classe | `com.github.gustavosr8.sssn.individuo`
+Autores | Nicolas e Gustavo	
 Interfaces | IDisputa
 
 ### Interfaces
@@ -271,41 +251,31 @@ public interface IDisputa{
 `Interface responsável pelo visual gráfico do programa`
 
 ~~~java
-public interface IDisplay{
-
-   public void desenharCirculo(Posicao pos, int raio, float r, float g, float b);
-   public void desenharLosango(Posicao pos, int raio, float r, float g, float b);
-   public void desenharTexto(Posicao pos, String texto);
-   
+public interface IDisplay {
+	public void desenharCirculo(Posicao pos, double raio, Color cor);
+	public void desenharLosango(Posicao pos, double raio, Color cor);
+	public void desenharTexto(Posicao pos, String texto);
 }
 ~~~
 
 Método | Objetivo
 -------| --------
-`desenharCirculo` | `Cria um circulo com um certo raio, em uma certa posição, com as cores dadas a partir das variáveis rgb`
-`desenharLosango` | `Cria um losango com um certo lado, em uma certa posição, com as cores dadas a partir das variáveis rgb`
+`desenharCirculo` | `Cria um circulo com um certo raio, em uma certa posição e uma certa cor`
+`desenharLosango` | `Cria um losango com um certo lado, em uma certa posiçãoe uma certa cor`
 `desenharTexto` | `Cria um texto em uma certa posição dada`
 
 
-### Interface `IPropriedades`
+### Interface `IPropHolder`
 
-`Interface responsável pela definição e pela obtenção de propriedades`
+`Interface responsável pelo armazenamento de propriedades`
 
 ~~~java
-public interface IPropriedades{
-
-   public String[] getPropriedades();
-   public String getPropriedade(String nome);
-   public void setPropriedade(String propriedade, String valor);
-   
+public interface IPropHolder {
+	public Prop[] props();
 }
 ~~~
 
-Método | Objetivo
--------| --------
-`getPropriedades` | `Retorna uma lista contendo todas as propriedades`
-`getPropriedade` | `Retorna o valor da propriedade passada como parâmetro`
-`setPropriedade` | `Define o valor de uma propriedade`
+> Nota-se que nessa interface não há metodos, somente uma lista de objetos do tipo Prop que armazena as propriedades de um certo objeto
 
 
 ### Interface `IObjeto`
@@ -313,18 +283,24 @@ Método | Objetivo
 `Generalização dos itens que compõe o ambiente celular`
 
 ~~~java
-public interface IObjeto extends IPropriedade{
+public interface IObjeto extends IPropHolder {
 
-   public void exibir(IDisplay display);
-   public void passo(IAmbiente ambiente);
-   
+	public void exibir(IDisplay display);
+	public void passo(IAmbiente ambiente);
+	public Posicao getPosicao();
+	public void updatePosicao(Posicao f);
+	public String getNome();
+
 }
 ~~~
 
 Método | Objetivo
 -------| --------
 `exibir` | `Exibe o objeto em questão na tela do usuário, a partir dos métodos da interface IDisplay`
-`passo` | `Realiza um ciclo em um dado ambiente, e atualiza o objeto conforme for definido no ciclo'
+`passo` | `Realiza um ciclo em um dado ambiente, e atualiza o objeto conforme for definido no ciclo`
+`getPosicao` | `Retorna a posição na qual o objeto se encontra`
+`updatePosicao`|`Recebe uma nova posição após um objeto ser movido, e a atualiza`
+`getNome` | `Retorna o nome  do componente associado a implementação do objeto`
 
 
 ### Interface `IDisputa`
@@ -332,20 +308,23 @@ Método | Objetivo
 `Interface reponsável por gerir a disputa entre dos seres`
 
 ~~~java
-public interface IDisputa{
 
-   public void incitar(IDisputa outro);
-   public boolean passoLuta();
-   public void aoGanhar();
-   
+public interface IDisputa {
+
+	public void conflitar(IAmbiente ambiente, IAlimento alimentoDisputado, IComensal ind, IComensal outro);
+	public void aoPediremParaCompartilhar(IAmbiente ambiente, IAlimento alimentoDisputado, IComensal ind, IComensal outro);
+	public boolean passoLuta(IAmbiente ambiente, IComensal ind);
+    	public Color getCor();
 }
+
 ~~~
 
 Método | Objetivo
 -------| --------
-`incitar` | `Incita outro ser para uma disputa`
-`passoLuta` | `Realiza um ciclo da luta, caso haja uma'
-'aoGanhar' | 'Realiza as rotinas definidas caso o ser ganhe a disputa'
+`conflitar` | `Recebe um IComensal que cria um conflito com um outro IComensal, que pode ser um conflito agressivo ou altruísta, dependendo do nivel de altruísmo de ambos`
+`aoPediremParaCompartilhar` | ` Dois "Icomensal" partilham um alimento caso ambos sejam altruístas, e isso é gerenciado nesse método`
+`passoLuta` | `Realiza um ciclo da luta, caso haja uma`
+`getColor` | `Método utilizado por um IComensal para determinar a sua cor com base no seu altruísmo`
 
 
 
@@ -354,18 +333,20 @@ Método | Objetivo
 `Um "ser" capaz de se alimentar e de criar uma disputa com outro "ser"`
 
 ~~~java
-public interface IComensal extends IPropriedades{
+public interface IComensal extends IPropHolder {
 
-   public void aoTerminarDeComer(float energiaAlimento);
-   public IDiputa getDisputa();
-   
+	public void aoTerminarDeComer(double e);
+	public IDisputa getDisputa();
+	public boolean perderEnergia(IAmbiente ambiente, float e);
+
 }
 ~~~
 
 Método | Objetivo
 -------| --------
 `aoTerminarDeComer` | `Realiza as rotinas definidas para quando o comensal termina de consumir um alimento`
-`getDisputa` | `Responsável por gerir a disputa por um alimento caso já haja um ser se alimentando'
+`getDisputa` | `Responsável por gerir a disputa por um alimento caso já haja um ser se alimentando`
+`perderEnergia` | `Método utilizado pelo ambiente para gerir a perda de energia de um IComensal quando for pertinete. O retorno é False se o IComensal fica com energia menor ou igual a zero`
 
 
 
@@ -375,18 +356,20 @@ Método | Objetivo
 `Um tipo de objeto que fornece energia e que pode gerar disputa`
 
 ~~~java
-public interface IAlimento extends IObjeto{
+public interface IAlimento extends IObjeto {
 
-   public IComensal getAlimentando();
-   public void setAlimentando(IComensal c);
-   
+	public IComensal[] getAlimentando();
+	public void setAlimentando(IComensal[] c);
+	public void terminarDeComerImediatamente(IAmbiente ambiente);
+
 }
 ~~~
 
 Método | Objetivo
 -------| --------
-`getAlimentando` | `Retorna um comensal que está sendo alimentado, caso não haja, retorna nulo`
-`setAlimentando` | `Começa a alimentar um dado comensal. Caso já haja um comensal sendo alimentado, inicia-se uma disputa entre ambos'
+`getAlimentando` | `Retorna uma lista com os comensais que estão sendo alimentados`
+`setAlimentando` | `Começa a alimentar um dado comensal. Caso já haja um comensal sendo alimentado, inicia-se uma disputa entre ambos`
+`terminarDeComerImediatamente` | `Realiza as operações necessárias para um comensal terminar de comer imediatamente um alimento`
 
 
 
@@ -407,44 +390,20 @@ public interface IReproducao{
 Método | Objetivo
 -------| --------
 `getGene` | `Retorna o gene do ser que solicita a repordução`
-`escolherParceiro` | `Escolhe um entre uma lista de possiveis parceiros, e retorna o seu indice na lista'
-'aoReproduzir'|'Rotinas realizadas ao reproduzir, retornando o gene do ser resultante'
+`escolherParceiro` | `Escolhe um entre uma lista de possiveis parceiros, e retorna o seu indice na lista`
+'aoReproduzir' | `Rotinas realizadas ao reproduzir, retornando o gene do ser resultante`
 
 ### Interface `IIndividuo`
 
 `Tipo de objeto que tem as caracteristicas de um ser comensal e que pode se reproduzir`
 
-~~~java
+~~~java	
 public interface IIndividuo extends IObjeto, IComensal, IReproducao{
-
-   public Gene getGene();
-   public int escolherParceiro(IReproducao[] x);
-   public Gene aoReproduzir(IReproducao x);
    
 }
 ~~~
 
-
-### Interface `ICasa`
-
-`Contêiner para um objeto`
-
-~~~java
-public interface ICasa{
-
-   public IObjetos[] getObjetos();
-   public void adicionar(IObjeto o);
-   public void remover(IObjeto o);
-   
-}
-~~~
-
-Método | Objetivo
--------| --------
-`getObjetos` | `Retorna os objetos presentes na casa`
-`adicionar` | `Adiciona um dado objeto na casa'
-'remover' | 'Remove um dado objeto da casa'
-
+> Nota-se que o IIndividuo não possui metodos próprios, porém une os metodos de IObjeto, IComensal e IReproducao
 
 
 ### Interface `IAmbiente`
@@ -452,28 +411,36 @@ Método | Objetivo
 `Interface que gere as relações entre diferentes objetos num dado despaço celular`
 
 ~~~java
-public interface IAmbiente extends IPropriedades{
+public interface IAmbiente extends IPropHolder {
 
-   public void ICasa[][] casas();
-   public void mover(IObjeto i, Posicao alvo);
-   public void passo();
-   public void proximaRodada();
-   public void reiniciar();
-   
+    public void mover(IObjeto i, Posicao alvo);
+    public void remover(IObjeto i);
+    
+    // Retorna o objeto de tipo cls mais próximo de p.
+    public IObjeto maisProximo(Posicao p, Class<?> cls);
+    // true se a rodada terminou com este passo.
+    public boolean passo();
+    // Retorna os objetos em dada posição
+    public IObjeto[] getObj(Posicao p);
+    
+    public int getAltura();
+    public int getLargura();
+
 }
 ~~~
 
 Método | Objetivo
 -------| --------
-`casas` | `Retorna as casas que compõe o ambiente`
-`mover` | `Move um dado objeto para uma dada posição'
-'passo' | 'Realiza um ciclo da simulação, e as rotinas relacionadas'
-'proximaRodada' | 'Realiza as rotinas relacionadas a troca de rodada, que se dá após um certo número de passos'
-'reiniciar' | 'Reinicia a simulação'
-
+`mover` | `Move um dado objeto para uma dada posição`
+`remover` | `Remove um dado objeto`
+`maisProximo` | `Dada a classe desejada, retorna o objeto dessa classe mais próximo de uma dada posição`
+`passo` | `Realiza um ciclo da simulação, e as rotinas relacionadas`
+`getObj` | `Retorna os objetos em uma dada posição`
+`getAltura` | `Retorna a altura do ambiente`
+`getLargura` | `Retorna a largura de um ambiente`
 ***
 
-# Plano de Exceções
+# Tratamento de Erros
 
 ## Diagrama da hierarquia de exceções
    
@@ -483,7 +450,6 @@ Método | Objetivo
 
 Classe | Descrição
 ----- | -----
-'ErroPropriedade' | 'Engloba todas as exceções relacionadas a definição de propriedades'
-'ErroPropriedadeForaDeAlcance' | 'Indica que o valor definido está fora do alcance da propriedade
-'ErroPropriedadeTipoInvalido'| 'Indica que o valor definido não é de um tipo válido para aquela propriedade'
-'ErroPropriedadeIniexistente'|'Indica que a propriedade definida não existe'
+`ErroProp` | `Engloba todas as exceções relacionadas a definição de propriedades`
+`ErroPropForaDeAlcance` | `Indica que o valor definido está fora do alcance da propriedade`
+`ErroPropTipoInvalido`| `Indica que o valor definido não é de um tipo válido para aquela propriedade`
