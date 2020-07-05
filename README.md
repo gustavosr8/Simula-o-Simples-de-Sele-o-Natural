@@ -35,13 +35,13 @@ O projeto visa criar uma simulação na qual é possivel, de forma simplificada,
 
 # Destaques de Código
 
-> <Escolha trechos relevantes e/ou de destaque do seu código. Apresente um recorte (você pode usar reticências para remover partes menos importantes). Veja como foi usado o highlight de Java para o código.>
+> O trecho abaixo merece destaque pois é a forma que encontramos para gerenciar as propriedades, que gerou um sistema consistente no qual o usúario pode alterar as propriedades, e essas propriedades podem ser facilmente acessadas internamente, gerando um alerta de erro caso haja alguma inconsistencia na alteração. 
 
 ~~~java
-// Recorte do seu código
-public void algoInteressante(…) {
-   …
-   trechoInteressante = 100;
+public abstract class Prop {
+	public abstract String getKey();
+	public abstract String getValue();
+	public abstract void setValue(String x) throws ErroProp;
 }
 ~~~
 ***
