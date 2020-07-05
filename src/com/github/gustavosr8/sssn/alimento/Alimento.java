@@ -70,6 +70,11 @@ public class Alimento implements IAlimento {
 	public void updatePosicao(Posicao f) {
 		mPosicao = f;
 	}
+	
+	@Override
+	public String getNome() {
+		return "Alimento";
+	}
 
 	// IPropHolder
 	@Override

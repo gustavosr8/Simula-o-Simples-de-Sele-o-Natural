@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.JPanel;
 
@@ -13,7 +15,6 @@ import com.github.gustavosr8.sssn.IObjeto;
 import com.github.gustavosr8.sssn.ambiente.IAmbiente;
 
 public class Display extends JPanel implements IDisplay {
-	private OnClickPosicao mOnClick;
 	private Graphics mGraphics = null;
 
 	private IAmbiente mAmbiente;
@@ -28,13 +29,20 @@ public class Display extends JPanel implements IDisplay {
 
 	public Display(IAmbiente ambiente, OnClickPosicao onClick) {
 		mAmbiente = ambiente;
-		mOnClick = onClick;
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				mMouseX = e.getX();
 				mMouseY = e.getY();
 				mDragged = false;
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				mMouseX = e.getX();
+				mMouseY = e.getY();
+				if (mDragged && onClick != null)
+					onClick.onClick(e, posicaoSelecionada());
 			}
 		});
 		addMouseMotionListener(new MouseMotionAdapter() {
@@ -54,6 +62,27 @@ public class Display extends JPanel implements IDisplay {
 			public void mouseMoved(MouseEvent e) {
 				mMouseX = e.getX();
 				mMouseY = e.getY();
+				repaint();
+			}
+		});
+		addMouseWheelListener(new MouseWheelListener() {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				int delta = 0;
+				if (e.getWheelRotation() > 0) {
+					if (mTamanhoCelula > 4) {
+						delta = -2;
+					}
+				} else if (mTamanhoCelula < 256) {
+					delta = 2;
+				}
+				
+				double fator = (double) (mTamanhoCelula + delta) / (double) mTamanhoCelula;
+				mTamanhoCelula += delta;
+				
+				mDeltaX -= (mMouseX - mDeltaX) * (fator - 1);
+				mDeltaY -= (mMouseY - mDeltaY) * (fator - 1);
+				
 				repaint();
 			}
 		});

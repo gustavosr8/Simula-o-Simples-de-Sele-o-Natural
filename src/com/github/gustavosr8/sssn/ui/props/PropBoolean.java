@@ -8,11 +8,11 @@ public class PropBoolean extends Prop {
 		mKey = key;
 		mVal = val;
 	}
-	
+
 	public boolean get() {
 		return mVal;
 	}
-	
+
 	@Override
 	public String getKey() {
 		return mKey;
@@ -25,10 +25,11 @@ public class PropBoolean extends Prop {
 
 	@Override
 	public void setValue(String x) throws ErroProp {
-		try {
-			mVal = Boolean.parseBoolean(x);
-		} catch (NumberFormatException e) {
+		if (x.equalsIgnoreCase("true") || x.equals("1"))
+			mVal = true;
+		else if (x.equalsIgnoreCase("false") || x.equals("0"))
+			mVal = false;
+		else
 			throw new ErroPropTipoInvalido("A propriedade deve ser true/false");
-		}
 	}
 }

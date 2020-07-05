@@ -10,4 +10,5 @@ public interface IObjeto extends IPropHolder {
 	public void passo(IAmbiente ambiente);
 	public Posicao getPosicao();
 	public void updatePosicao(Posicao f);
+	public String getNome();
 }
