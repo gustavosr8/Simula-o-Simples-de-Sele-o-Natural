@@ -22,10 +22,11 @@ public class Ambiente implements IAmbiente, ActionListener {
 	private PropDouble mEnergiaPorAlimento = new PropDouble("Energia por alimento", 2.0, 0.0, 1e5);
 	private PropInt mDelayDeAlimento = new PropInt("Tempo de alimentação", 3, 1, 100);
 
-	private PropDouble mMinimoAltruismoParaAltruista = new PropDouble("Altruísmo mínimo para ser altruísta", 1.0, 0.0, 1e5);
+	private PropDouble mMinimoAltruismoParaAltruista = new PropDouble("Altruísmo mínimo para ser altruísta", 1.0, 0.0,
+			1e5);
 
 	private int mPassos = 0;
-	
+
 	@Override
 	public void mover(IObjeto i, Posicao alvo) {
 		mCasas[i.getPosicao().x][i.getPosicao().y].remove(i);
@@ -65,7 +66,7 @@ public class Ambiente implements IAmbiente, ActionListener {
 	// ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		passo();
 
 	}
 

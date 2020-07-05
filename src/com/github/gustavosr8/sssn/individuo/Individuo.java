@@ -57,6 +57,8 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		}
 	}
 
+	// IPorpHolder
+
 	@Override
 	public Prop[] props() {
 		Prop[] props = { mVelocidade, mTamanho, mPropAltruismo, mGeneVelocidade, mGeneTamanho, mGeneAltruismo,
@@ -64,69 +66,67 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		return props;
 	}
 
+	// IObjeto
+
 	@Override
 	public void exibir(IDisplay display) {
-		
-	// A cor começa é azul se for altruista e vermelho se for agressivo
-		Color rb = (mDisputa instanceof DisputaAltruista) ? new Color(0,0,255): new Color(255,0,0);
+
+		// A cor começa é azul se for altruista e vermelho se for agressivo
+		Color rb = (mDisputa instanceof DisputaAltruista) ? new Color(0, 0, 255) : new Color(255, 0, 0);
 		display.desenharLosango(mPosicao, 1, rb);
 
 	}
-	
 
 	@Override
 	public void passo(IAmbiente ambiente) {
 
 		IObjeto alvo = null;
 		alvo = ambiente.maisProximo(getPosicao(), Alimento.class);
-		
-		if(alvo.getPosicao().equals(getPosicao())) {
-			if(((IAlimento) alvo).getAlimentando() != null) {
-				IComensal[] oponentes = ((IAlimento) alvo).getAlimentando(); 
-				for(IComensal o:oponentes) {
-					getDisputa().conflitar(ambiente, (IAlimento) alvo, this, o);					
+
+		if (alvo.getPosicao().equals(getPosicao())) {
+			if (((IAlimento) alvo).getAlimentando() != null) {
+				IComensal[] oponentes = ((IAlimento) alvo).getAlimentando();
+				for (IComensal o : oponentes) {
+					getDisputa().conflitar(ambiente, (IAlimento) alvo, this, o);
 				}
 			}
 		}
-		
-		Posicao futura = new Posicao(getPosicao().x,getPosicao().y);
-		
+
+		Posicao futura = new Posicao(getPosicao().x, getPosicao().y);
+
 		int DeltaX = (alvo.getPosicao().x - getPosicao().x);
 		int DeltaY = (alvo.getPosicao().y - getPosicao().y);
 		double incremento = mVelocidade.get();
-		
-		if(DeltaX == 0) {
-			if(DeltaY>0) {
-				futura.y -= (Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
-			}else {
-				futura.y += (Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
+
+		if (DeltaX == 0) {
+			if (DeltaY > 0) {
+				futura.y -= (Math.abs(DeltaY) < incremento) ? Math.abs(DeltaY) : incremento;
+			} else {
+				futura.y += (Math.abs(DeltaY) < incremento) ? Math.abs(DeltaY) : incremento;
 			}
-		
-		
-		}else if(DeltaY==0) {
-			
-			if(DeltaX>0) {
-				futura.x-=(Math.abs(DeltaX)<incremento)?Math.abs(DeltaX):incremento;
-			}else {
-				futura.x+=(Math.abs(DeltaX)<incremento)?Math.abs(DeltaX):incremento;
+
+		} else if (DeltaY == 0) {
+
+			if (DeltaX > 0) {
+				futura.x -= (Math.abs(DeltaX) < incremento) ? Math.abs(DeltaX) : incremento;
+			} else {
+				futura.x += (Math.abs(DeltaX) < incremento) ? Math.abs(DeltaX) : incremento;
 			}
-		
-		
-		}else if(DeltaX>0) {
-			futura.x-=(Math.abs(DeltaX)<incremento)?Math.abs(DeltaX):incremento;
-			if(DeltaY>0) {
-				futura.y-=(Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
-			}else {
-				futura.y+=(Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
+
+		} else if (DeltaX > 0) {
+			futura.x -= (Math.abs(DeltaX) < incremento) ? Math.abs(DeltaX) : incremento;
+			if (DeltaY > 0) {
+				futura.y -= (Math.abs(DeltaY) < incremento) ? Math.abs(DeltaY) : incremento;
+			} else {
+				futura.y += (Math.abs(DeltaY) < incremento) ? Math.abs(DeltaY) : incremento;
 			}
-		
-		
-		}else if(DeltaX<0) {
-			futura.x+=(Math.abs(DeltaX)<incremento)?Math.abs(DeltaX):incremento;
-			if(DeltaY>0) {
-				futura.y-=(Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
-			}else {
-				futura.y+=(Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
+
+		} else if (DeltaX < 0) {
+			futura.x += (Math.abs(DeltaX) < incremento) ? Math.abs(DeltaX) : incremento;
+			if (DeltaY > 0) {
+				futura.y -= (Math.abs(DeltaY) < incremento) ? Math.abs(DeltaY) : incremento;
+			} else {
+				futura.y += (Math.abs(DeltaY) < incremento) ? Math.abs(DeltaY) : incremento;
 			}
 		}
 
@@ -143,38 +143,43 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		mPosicao = f;
 	}
 
+	// IComensal
+
 	@Override
 	public void aoTerminarDeComer(double e) {
-		
-		mEnergiaArmazenada.set(mEnergiaArmazenada.get()+e);
-		
+
+		mEnergiaArmazenada.set(mEnergiaArmazenada.get() + e);
+
 	}
 
 	@Override
 	public IDisputa getDisputa() {
+
 		return mDisputa;
 	}
-	
+
 	@Override
 	public boolean perderEnergia(IAmbiente ambiente, float e) {
-		
+
 		double NEnergia = mEnergiaArmazenada.get() - e;
-		
-		if( NEnergia <= 0 ) {
+
+		if (NEnergia <= 0) {
 			ambiente.remover(this);
 			return false;
-			}
-		
+		}
+
 		mEnergiaArmazenada.set(NEnergia);
 		return true;
 	}
+
+	// IReproducao
 
 	@Override
 	public Gene getGene() {
 		Gene g = new Gene(mGeneVelocidade.get(), mGeneTamanho.get(), mGeneAltruismo.get());
 		return g;
 	}
-	
+
 	@Override
 	public int escolherParceiro(IReproducao[] x) {
 		return 0;
@@ -182,16 +187,14 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	@Override
 	public Gene aoReproduzir(IReproducao x) {
-		
-		double velF = (mGeneVelocidade.get()+x.getGene().velocidade)/2;
-		double tamF = (mGeneTamanho.get()+x.getGene().tamanho)/2;
-		double altF = (mGeneAltruismo.get()+x.getGene().altruismo)/2;
-		
-		
-		Gene filho=new Gene(velF,tamF,altF);
-		
+
+		double velF = (mGeneVelocidade.get() + x.getGene().velocidade) / 2;
+		double tamF = (mGeneTamanho.get() + x.getGene().tamanho) / 2;
+		double altF = (mGeneAltruismo.get() + x.getGene().altruismo) / 2;
+
+		Gene filho = new Gene(velF, tamF, altF);
+
 		return filho;
 	}
 
-	
 }
