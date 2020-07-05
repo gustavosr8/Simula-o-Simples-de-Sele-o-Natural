@@ -18,4 +18,9 @@ public class Posicao {
     public boolean equals(Posicao outro) {
     	return x == outro.x && y == outro.y;
     }
+    
+    @Override
+    public String toString() {
+    	return "(" + x + ", " + y + ")";
+    }
 }

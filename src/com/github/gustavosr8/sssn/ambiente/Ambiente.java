@@ -28,7 +28,7 @@ public class Ambiente implements IAmbiente {
 	private PropDouble mEnergiaPorAlimento = new PropDouble("Energia por alimento", 5.0, 0.0, 1e5);
 	private PropInt mDelayDeAlimento = new PropInt("Tempo de alimentação", 3, 1, 100);
 
-	private PropDouble mCustoMov = new PropDouble("Custo de movimentação", 2.0, 0.0, 1e5);
+	private PropDouble mCustoMov = new PropDouble("Custo de movimentação", 0.5, 0.0, 1e5);
 	private PropDouble mEnergiaInicialIndividuo = new PropDouble("Energia inicial de indivíduo", 5.0, 0.0, 1e5);
 	private PropDouble mEnergiaRepro = new PropDouble("Energia para reprodução", 10.0, 0.0, 1e5);
 
@@ -88,19 +88,21 @@ public class Ambiente implements IAmbiente {
 	private void adicionar(IObjeto obj) {
 		Posicao pos = obj.getPosicao();
 		if (pos.x >= 0 && pos.y >= 0 && pos.x < getLargura() && pos.y < getAltura())
-			mCasas[obj.getPosicao().x][obj.getPosicao().y].add(obj);
+			mCasas[pos.x][pos.y].add(obj);
 	}
 
 	@Override
 	public void mover(IObjeto i, Posicao alvo) {
-		mCasas[i.getPosicao().x][i.getPosicao().y].remove(i);
-		mCasas[alvo.x][alvo.y].add(i);
+		remover(i);
 		i.updatePosicao(alvo);
+		adicionar(i);
 	}
 
 	@Override
 	public void remover(IObjeto i) {
-		mCasas[i.getPosicao().x][i.getPosicao().y].remove(i);
+		Posicao pos = i.getPosicao();
+		if (!mCasas[pos.x][pos.y].remove(i))
+			throw new RuntimeException("Removeu objeto inexistente em " + pos);
 	}
 
 	@Override
@@ -128,10 +130,9 @@ public class Ambiente implements IAmbiente {
 			comecarRodada();
 			return true;
 		}
-		for (int i = 0; i < mCasas.length; i++)
-			for (int j = 0; j < mCasas[i].length; j++)
-				for (int k = 0; k < mCasas[i][j].size(); k++)
-					mCasas[i][j].get(k).passo(this);
+		ArrayList<IObjeto> obj = objetos();
+		for (int i = 0; i < obj.size(); i++)
+			obj.get(i).passo(this);
 		return false;
 	}
 
@@ -219,7 +220,7 @@ public class Ambiente implements IAmbiente {
 						mEnergiaInicialIndividuo.get()));
 			}
 		}
-		
+
 		for (int i = 0; i < mAlimentoPorRodada.get(); i++)
 			adicionar(new Alimento(posicaoAleatoriaVaga(), mEnergiaPorAlimento.get(), mDelayDeAlimento.get()));
 	}
@@ -251,5 +252,13 @@ public class Ambiente implements IAmbiente {
 			contagem++;
 		} while (getObj(p).length > 0 && contagem < 50);
 		return p;
+	}
+	
+	private ArrayList<IObjeto> objetos() {
+		ArrayList<IObjeto> obj = new ArrayList<IObjeto>();
+		for (int i = 0; i < getLargura(); i++)
+			for (int j = 0; j < getAltura(); j++)
+				obj.addAll(mCasas[i][j]);
+		return obj;
 	}
 }

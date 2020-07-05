@@ -1,18 +1,16 @@
 package com.github.gustavosr8.sssn.individuo;
 
-import com.github.gustavosr8.sssn.IObjeto;
 import com.github.gustavosr8.sssn.alimento.Alimento;
 import com.github.gustavosr8.sssn.alimento.IAlimento;
 import com.github.gustavosr8.sssn.ambiente.IAmbiente;
 import com.github.gustavosr8.sssn.ambiente.Posicao;
 import com.github.gustavosr8.sssn.ui.IDisplay;
 import com.github.gustavosr8.sssn.ui.props.ErroProp;
-import com.github.gustavosr8.sssn.ui.props.ErroPropTipoInvalido;
 import com.github.gustavosr8.sssn.ui.props.Prop;
 import com.github.gustavosr8.sssn.ui.props.PropDouble;
 import com.github.gustavosr8.sssn.ui.props.PropInt;
 
-public class Individuo implements IReproducao, IComensal, IObjeto {
+public class Individuo implements IIndividuo {
 	private PropDouble mGeneVelocidade;
 	private PropDouble mGeneTamanho;
 	private PropDouble mGeneAltruismo;
@@ -25,9 +23,9 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 	private PropDouble mEnergia;
 
 	private IDisputa mDisputa;
-
+	
 	private Posicao mPosicao;
-
+	
 	private class PropAltruismo extends PropInt {
 		public PropAltruismo() {
 			super("Altruísta", 0, 0, 1);
@@ -59,8 +57,13 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		mGastoEnergetico = new PropDouble("Custo de movimentação", gastoEnergetico, 0.0, 1e5);
 		mEnergia = new PropDouble("Energia", energiaInicial, 0.0, 1e5);
 	}
+	
+	@Override
+	public double getEnergia() {
+		return mEnergia.get();
+	}
 
-	// IPorpHolder
+	// IPropHolder
 
 	@Override
 	public Prop[] props() {
@@ -73,13 +76,16 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	@Override
 	public void exibir(IDisplay display) {
-		display.desenharCirculo(mPosicao, 0.5, getDisputa().getCor());
-		display.desenharTexto(mPosicao,
+		display.desenharCirculo(getPosicao(), 0.5, getDisputa().getCor());
+		display.desenharTexto(getPosicao(),
 				Integer.toString((int) mEnergia.get()) + "/" + Integer.toString((int) mTamanho.get()));
 	}
 
 	@Override
 	public void passo(IAmbiente ambiente) {
+		if (getEnergia() == 0)
+			return;
+		
 		IAlimento alvo = (IAlimento) ambiente.maisProximo(getPosicao(), Alimento.class);
 		if (alvo == null)
 			return;
@@ -101,12 +107,12 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		double dirX = distX / dist;
 		double dirY = distY / dist;
 
-		Posicao pos = new Posicao(mPosicao.x + (int) (dirX * abs), mPosicao.y + (int) (dirY * abs));
+		Posicao pos = new Posicao(getPosicao().x + (int) (dirX * abs), getPosicao().y + (int) (dirY * abs));
 
-		perderEnergia(ambiente, mGastoEnergetico.get() * abs);
-		ambiente.mover(this, pos);
+		if (perderEnergia(ambiente, mGastoEnergetico.get() * abs))
+			ambiente.mover(this, pos);
 	}
-
+	
 	@Override
 	public Posicao getPosicao() {
 		return mPosicao;
@@ -121,7 +127,7 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	@Override
 	public void aoTerminarDeComer(double e) {
-		mEnergia.set(mEnergia.get() + e);
+		mEnergia.set(getEnergia() + e);
 	}
 
 	@Override
@@ -131,8 +137,8 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	@Override
 	public boolean perderEnergia(IAmbiente ambiente, double d) {
-		mEnergia.set(mEnergia.get() - d);
-		if (mEnergia.get() <= 0) {
+		mEnergia.set(getEnergia() - d);
+		if (getEnergia() <= 0) {
 			ambiente.remover(this);
 			return false;
 		}

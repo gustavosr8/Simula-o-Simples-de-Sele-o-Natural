@@ -50,7 +50,7 @@ public class Alimento implements IAlimento {
 	public void exibir(IDisplay display) {
 		// A cor começa verde e fica mais branca conforme o alimentado se alimenta
 		int rb = mDelayAlimentar.get() > 0 ? 255 * mTempoAlimentando.get() / mDelayAlimentar.get() : 0;
-		display.desenharLosango(mPosicao, 0.25, new Color(rb, 255, rb));
+		display.desenharLosango(getPosicao(), 0.25, new Color(rb, 255, rb));
 	}
 
 	@Override
