@@ -56,12 +56,16 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		}
 	}
 
+	// IPorpHolder
+
 	@Override
 	public Prop[] props() {
 		Prop[] props = { mVelocidade, mTamanho, mPropAltruismo, mGeneVelocidade, mGeneTamanho, mGeneAltruismo,
 				mGastoEnergetico, mEnergiaArmazenada };
 		return props;
 	}
+
+	// IObjeto
 
 	@Override
 	public void exibir(IDisplay display) {
@@ -138,6 +142,8 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		mPosicao = f;
 	}
 
+	// IComensal
+
 	@Override
 	public void aoTerminarDeComer(double e) {
 
@@ -147,6 +153,7 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	@Override
 	public IDisputa getDisputa() {
+
 		return mDisputa;
 	}
 
@@ -163,6 +170,8 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		mEnergiaArmazenada.set(NEnergia);
 		return true;
 	}
+
+	// IReproducao
 
 	@Override
 	public Gene getGene() {
