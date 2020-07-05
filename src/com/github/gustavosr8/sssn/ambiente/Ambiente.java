@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import com.github.gustavosr8.sssn.IObjeto;
 import com.github.gustavosr8.sssn.ui.props.Prop;
-import com.github.gustavosr8.sssn.ui.props.PropBoolean;
 import com.github.gustavosr8.sssn.ui.props.PropDouble;
 import com.github.gustavosr8.sssn.ui.props.PropInt;
 
@@ -16,7 +15,6 @@ public class Ambiente implements IAmbiente, ActionListener {
 	private PropInt mNovaAltura = new PropInt("Altura", 25, 1, 255);
 	private PropInt mNovaLargura = new PropInt("Largura", 25, 1, 255);
 	private PropInt mPassosPorRodada = new PropInt("Passos por rodada", 10, 1, 10000);
-	private PropBoolean mRepopular = new PropBoolean("Repopular", false);
 	private PropInt mRepopularCom = new PropInt("População limite para repopular", 10, 0, 255);
 
 	private PropDouble mEnergiaPorAlimento = new PropDouble("Energia por alimento", 2.0, 0.0, 1e5);
@@ -58,7 +56,7 @@ public class Ambiente implements IAmbiente, ActionListener {
 	// IPropriedades
 	@Override
 	public Prop[] props() {
-		Prop[] props = { mNovaAltura, mNovaLargura, mPassosPorRodada, mRepopular, mRepopularCom, mEnergiaPorAlimento,
+		Prop[] props = { mNovaAltura, mNovaLargura, mPassosPorRodada, mRepopularCom, mEnergiaPorAlimento,
 				mDelayDeAlimento, mMinimoAltruismoParaAltruista };
 		return props;
 	}
