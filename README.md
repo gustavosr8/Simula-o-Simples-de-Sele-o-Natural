@@ -418,6 +418,9 @@ public interface IAmbiente extends IPropHolder {
 
     public void reiniciar();
 
+    public void adicionarIndividuoEm(Posicao p);
+    public void adicionarAlimentoEm(Posicao p);
+
 }
 ~~~
 
@@ -431,6 +434,8 @@ Método | Objetivo
 `getAltura` | `Retorna a altura do ambiente`
 `getLargura` | `Retorna a largura de um ambiente`
 `reiniciar` | `Reinicia a simulação`
+`adicionarIndividuoEm` | `Adiciona um indivíduo em uma dada posição`
+`adicionarAlimentoEm` | `Adiciona um alimento em uma dada posição`
 ***
 
 # Tratamento de Erros
