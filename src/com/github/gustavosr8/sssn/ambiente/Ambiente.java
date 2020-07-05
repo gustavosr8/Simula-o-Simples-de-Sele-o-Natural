@@ -19,9 +19,17 @@ public class Ambiente implements IAmbiente, ActionListener {
 
 	private PropDouble mEnergiaPorAlimento = new PropDouble("Energia por alimento", 2.0, 0.0, 1e5);
 	private PropInt mDelayDeAlimento = new PropInt("Tempo de alimentação", 3, 1, 100);
+	
+	private PropDouble mCustoMov = new PropDouble("Custo de movimentação", 2.0, 0.0, 1e5);
 
 	private PropDouble mMinimoAltruismoParaAltruista = new PropDouble("Altruísmo mínimo para ser altruísta", 1.0, 0.0,
 			1e5);
+	private PropDouble mMinimoTamanho = new PropDouble("Valor mínimo do gene tamanho", 0.0, -1e5, 1e5);
+	private PropDouble mMaximoTamanho = new PropDouble("Valor máximo do gene tamanho", 10.0, -1e5, 1e5);
+	private PropDouble mMinimoVelocidade = new PropDouble("Valor mínimo do gene velocidade", 0.0, -1e5, 1e5);
+	private PropDouble mMaximoVelocidade = new PropDouble("Valor máximo do gene velocidade", 10.0, -1e5, 1e5);
+	private PropDouble mMinimoAltruismo = new PropDouble("Valor mínimo do gene altruísmo", 0.0, -1e5, 1e5);
+	private PropDouble mMaximoAltruismo = new PropDouble("Valor máximo do gene altruísmo", 10.0, -1e5, 1e5);
 
 	private int mPassos = 0;
 
@@ -57,7 +65,8 @@ public class Ambiente implements IAmbiente, ActionListener {
 	@Override
 	public Prop[] props() {
 		Prop[] props = { mNovaAltura, mNovaLargura, mPassosPorRodada, mRepopularCom, mEnergiaPorAlimento,
-				mDelayDeAlimento, mMinimoAltruismoParaAltruista };
+				mDelayDeAlimento, mCustoMov, mMinimoAltruismoParaAltruista, mMinimoTamanho, mMaximoTamanho,
+				mMinimoVelocidade, mMaximoVelocidade, mMinimoAltruismo, mMaximoAltruismo };
 		return props;
 	}
 

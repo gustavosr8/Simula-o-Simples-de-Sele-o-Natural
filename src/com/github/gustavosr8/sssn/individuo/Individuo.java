@@ -69,11 +69,8 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	@Override
 	public void exibir(IDisplay display) {
-
-		// A cor começa é azul se for altruista e vermelho se for agressivo
-		Color rb = (mDisputa instanceof DisputaAltruista) ? new Color(0, 0, 255) : new Color(255, 0, 0);
-		display.desenharLosango(mPosicao, 1, rb);
-
+		display.desenharLosango(mPosicao, 1, getDisputa().getCor());
+		display.desenharTexto(mPosicao, mEnergiaArmazenada.getValue());
 	}
 
 	@Override
@@ -181,6 +178,7 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	@Override
 	public int escolherParceiro(IReproducao[] x) {
+		// Escolhe o primeiro que puder
 		return 0;
 	}
 

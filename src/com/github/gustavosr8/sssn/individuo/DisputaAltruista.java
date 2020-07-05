@@ -1,5 +1,7 @@
 package com.github.gustavosr8.sssn.individuo;
 
+import java.awt.Color;
+
 import com.github.gustavosr8.sssn.alimento.IAlimento;
 import com.github.gustavosr8.sssn.ambiente.IAmbiente;
 
@@ -20,5 +22,10 @@ public class DisputaAltruista implements IDisputa {
 	@Override
 	public boolean passoLuta(IAmbiente ambiente, IComensal ind) {
 		return false;
+	}
+	
+	@Override
+	public Color getCor() {
+		return Color.BLUE;
 	}
 }

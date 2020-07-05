@@ -1,5 +1,7 @@
 package com.github.gustavosr8.sssn.individuo;
 
+import java.awt.Color;
+
 import com.github.gustavosr8.sssn.alimento.IAlimento;
 import com.github.gustavosr8.sssn.ambiente.IAmbiente;
 
@@ -28,5 +30,10 @@ public class DisputaAgressivo implements IDisputa {
 	@Override
 	public boolean passoLuta(IAmbiente ambiente, IComensal ind) {
 		return ind.perderEnergia(ambiente, 1f);
+	}
+	
+	@Override
+	public Color getCor() {
+		return Color.RED;
 	}
 }
