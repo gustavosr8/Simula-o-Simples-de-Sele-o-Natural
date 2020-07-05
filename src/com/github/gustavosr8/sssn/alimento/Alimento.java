@@ -13,7 +13,7 @@ import com.github.gustavosr8.sssn.ui.props.PropInt;
 public class Alimento implements IAlimento {
 	private PropDouble mEnergia;
 	private PropInt mDelayAlimentar; // tempo que um indivíduo fica se alimentando
-	private PropInt mTempoAlimentando = new PropInt("Tempo alimentando", 0, 0, 10);
+	private int mTempoAlimentando = 0;
 
 	private Posicao mPosicao;
 
@@ -37,7 +37,7 @@ public class Alimento implements IAlimento {
 
 	@Override
 	public void terminarDeComerImediatamente(IAmbiente ambiente) {
-		mTempoAlimentando.set(0);
+		mTempoAlimentando = 0;
 		ambiente.remover(this);
 		for (int i = 0; i < mAlimentando.length; i++)
 			mAlimentando[i].aoTerminarDeComer(mEnergia.get() / mAlimentando.length);
@@ -54,8 +54,8 @@ public class Alimento implements IAlimento {
 	@Override
 	public void passo(IAmbiente ambiente) {
 		if (mAlimentando.length > 0) {
-			mTempoAlimentando.set(mTempoAlimentando.get() + 1);
-			if (mTempoAlimentando.get() >= mDelayAlimentar.get())
+			mTempoAlimentando++;
+			if (mTempoAlimentando >= mDelayAlimentar.get())
 				terminarDeComerImediatamente(ambiente);
 		}
 	}
@@ -78,7 +78,7 @@ public class Alimento implements IAlimento {
 	// IPropHolder
 	@Override
 	public Prop[] props() {
-		Prop[] props = { mEnergia, mDelayAlimentar, mTempoAlimentando };
+		Prop[] props = { mEnergia, mDelayAlimentar };
 		return props;
 	}
 }
