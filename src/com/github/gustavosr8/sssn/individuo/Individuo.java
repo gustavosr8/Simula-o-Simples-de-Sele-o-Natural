@@ -2,6 +2,7 @@ package com.github.gustavosr8.sssn.individuo;
 
 import com.github.gustavosr8.sssn.IObjeto;
 import com.github.gustavosr8.sssn.alimento.Alimento;
+import com.github.gustavosr8.sssn.alimento.IAlimento;
 import com.github.gustavosr8.sssn.ambiente.IAmbiente;
 import com.github.gustavosr8.sssn.ambiente.Posicao;
 import com.github.gustavosr8.sssn.ui.IDisplay;
@@ -71,47 +72,53 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 	public void passo(IAmbiente ambiente) {
 
 		IObjeto alvo = null;
-		alvo = ambiente.maisProximo(getPosicao(), this);
-		Posicao futura = new Posicao(getPosicao().x, getPosicao().y);
-
-		if (alvo.getPosicao().equals(getPosicao())) {
-			if (alvo instanceof Alimento) {
-				if (((Alimento) alvo).getAlimentando() != null) {
-					IComensal[] outro = ((Alimento) alvo).getAlimentando();
-					// criar uma disputa entre ambos
-				}
+		alvo = ambiente.maisProximo(getPosicao(), Alimento.class);
+		
+		if(alvo.getPosicao().equals(getPosicao())) {
+			if(((Alimento) alvo).getAlimentando() != null) {
+				IComensal[] oponentes = ((Alimento) alvo).getAlimentando(); 
+				//aqui tem que criar a disputa   <------------------------------------------------------------------------------------
 			}
 		}
-
+		
+		Posicao futura = new Posicao(getPosicao().x,getPosicao().y);
+		
 		int DeltaX = (alvo.getPosicao().x - getPosicao().x);
 		int DeltaY = (alvo.getPosicao().y - getPosicao().y);
-
-		if (DeltaX == 0) {
-			if (DeltaY > 0) {
-				futura.y--;
-			} else {
-				futura.y++;
+		double incremento = mVelocidade.get();
+		
+		if(DeltaX == 0) {
+			if(DeltaY>0) {
+				futura.y -= (Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
+			}else {
+				futura.y += (Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
 			}
-		} else if (DeltaY == 0) {
-
-			if (DeltaX > 0) {
-				futura.x--;
-			} else {
-				futura.x++;
+		
+		
+		}else if(DeltaY==0) {
+			
+			if(DeltaX>0) {
+				futura.x-=(Math.abs(DeltaX)<incremento)?Math.abs(DeltaX):incremento;
+			}else {
+				futura.x+=(Math.abs(DeltaX)<incremento)?Math.abs(DeltaX):incremento;
 			}
-		} else if (DeltaX > 0) {
-			futura.x--;
-			if (DeltaY > 0) {
-				futura.y--;
-			} else {
-				futura.y++;
+		
+		
+		}else if(DeltaX>0) {
+			futura.x-=(Math.abs(DeltaX)<incremento)?Math.abs(DeltaX):incremento;
+			if(DeltaY>0) {
+				futura.y-=(Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
+			}else {
+				futura.y+=(Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
 			}
-		} else if (DeltaX < 0) {
-			futura.x++;
-			if (DeltaY > 0) {
-				futura.y--;
-			} else {
-				futura.y++;
+		
+		
+		}else if(DeltaX<0) {
+			futura.x+=(Math.abs(DeltaX)<incremento)?Math.abs(DeltaX):incremento;
+			if(DeltaY>0) {
+				futura.y-=(Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
+			}else {
+				futura.y+=(Math.abs(DeltaY)<incremento)?Math.abs(DeltaY):incremento;
 			}
 		}
 
@@ -130,19 +137,19 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 		int DeltaX = Math.abs(f.x - getPosicao().x);
 		int DeltaY = Math.abs(f.y - getPosicao().y);
-
-		Double NEnergia = mEnergiaArmazenada.get() - ((DeltaY + DeltaX) * mGastoEnergetico.get());
-
-		mEnergiaArmazenada.setValue(Double.toString(NEnergia));
+		
+		Double NEnergia = mEnergiaArmazenada.get() - ((DeltaY+DeltaX)*mGastoEnergetico.get());
+		
+		mEnergiaArmazenada.set(NEnergia);
 		mPosicao = f;
 
 	}
 
 	@Override
 	public void aoTerminarDeComer(double e) {
-
-		mEnergiaArmazenada.setValue(Double.toString(mEnergiaArmazenada.get() + e));
-
+		
+		mEnergiaArmazenada.set(mEnergiaArmazenada.get()+e);
+		
 	}
 
 	@Override
@@ -152,10 +159,10 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	@Override
 	public Gene getGene() {
-		// TODO Auto-generated method stub
-		return null;
+		Gene g = new Gene(mGeneVelocidade.get(), mGeneTamanho.get(), mGeneAltruismo.get());
+		return g;
 	}
-
+	
 	@Override
 	public int escolherParceiro(IReproducao[] x) {
 		// TODO Auto-generated method stub
@@ -164,7 +171,14 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	@Override
 	public Gene aoReproduzir(IReproducao x) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		double velF = (mGeneVelocidade.get()+x.getGene().velocidade)/2;
+		double tamF = (mGeneTamanho.get()+x.getGene().tamanho)/2;
+		double altF = (mGeneAltruismo.get()+x.getGene().altruismo)/2;
+		
+		
+		Gene filho=new Gene(velF,tamF,altF);
+		
+		return filho;
 	}
 }
