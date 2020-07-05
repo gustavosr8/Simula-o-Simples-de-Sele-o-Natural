@@ -29,7 +29,7 @@ public class DisputaAgressivo implements IDisputa {
 
 	@Override
 	public boolean passoLuta(IAmbiente ambiente, IComensal ind) {
-		return ind.perderEnergia(ambiente, 1f);
+		return ind.perderEnergia(ambiente, 1.0);
 	}
 	
 	@Override

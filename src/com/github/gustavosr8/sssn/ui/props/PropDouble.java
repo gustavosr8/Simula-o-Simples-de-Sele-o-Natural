@@ -23,6 +23,8 @@ public class PropDouble extends Prop {
 	}
 
 	public void set(double d) {
+		if (Double.isNaN(d))
+			throw new RuntimeException("Tentou fazer propriedade ser NaN!");
 		mVal = d;
 	}
 

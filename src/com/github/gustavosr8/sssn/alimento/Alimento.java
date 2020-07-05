@@ -13,11 +13,11 @@ import com.github.gustavosr8.sssn.ui.props.PropInt;
 public class Alimento implements IAlimento {
 	private PropDouble mEnergia;
 	private PropInt mDelayAlimentar; // tempo que um indivíduo fica se alimentando
+	private PropInt mTempoAlimentando = new PropInt("Tempo alimentando", 0, 0, 10);
 
 	private Posicao mPosicao;
 
-	private IComensal[] mAlimentando = null;
-	private int mPassosAlimentando = 0; // Tempo que alimentando está se alimentando
+	private IComensal[] mAlimentando = {};
 
 	public Alimento(Posicao pos, double energia, int delayAlimentar) {
 		mPosicao = pos;
@@ -37,26 +37,27 @@ public class Alimento implements IAlimento {
 
 	@Override
 	public void terminarDeComerImediatamente(IAmbiente ambiente) {
-		mPassosAlimentando = 0;
+		mTempoAlimentando.set(0);
 		ambiente.remover(this);
 		for (int i = 0; i < mAlimentando.length; i++)
 			mAlimentando[i].aoTerminarDeComer(mEnergia.get() / mAlimentando.length);
-		mAlimentando = null;
+		IComensal[] vazio = {};
+		mAlimentando = vazio;
 	}
 
 	// IObjeto
 	@Override
 	public void exibir(IDisplay display) {
 		// A cor começa verde e fica mais branca conforme o alimentado se alimenta
-		int rb = mDelayAlimentar.get() > 0 ? 255 * mPassosAlimentando / mDelayAlimentar.get() : 0;
+		int rb = mDelayAlimentar.get() > 0 ? 255 * mTempoAlimentando.get() / mDelayAlimentar.get() : 0;
 		display.desenharLosango(mPosicao, 0.25, new Color(rb, 255, rb));
 	}
 
 	@Override
 	public void passo(IAmbiente ambiente) {
-		if (mAlimentando != null) {
-			mPassosAlimentando++;
-			if (mPassosAlimentando == mDelayAlimentar.get())
+		if (mAlimentando.length > 0) {
+			mTempoAlimentando.set(mTempoAlimentando.get() + 1);
+			if (mTempoAlimentando.get() >= mDelayAlimentar.get())
 				terminarDeComerImediatamente(ambiente);
 		}
 	}
@@ -79,7 +80,7 @@ public class Alimento implements IAlimento {
 	// IPropHolder
 	@Override
 	public Prop[] props() {
-		Prop[] props = { mEnergia, mDelayAlimentar };
+		Prop[] props = { mEnergia, mDelayAlimentar, mTempoAlimentando };
 		return props;
 	}
 }

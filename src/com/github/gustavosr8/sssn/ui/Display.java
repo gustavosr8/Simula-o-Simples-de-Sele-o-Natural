@@ -22,7 +22,7 @@ public class Display extends JPanel implements IDisplay {
 
 	private int mDeltaX = 10;
 	private int mDeltaY = 10;
-	private int mTamanhoCelula = 16;
+	private int mTamanhoCelula = 32;
 
 	private boolean mDragged = false;
 	private int mMouseX = 0;

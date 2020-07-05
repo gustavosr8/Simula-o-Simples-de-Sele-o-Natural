@@ -100,6 +100,13 @@ public class Janela implements TimerListener {
 		});
 
 		JCheckBox checkboxPausarTermino = new JCheckBox("Pausar ao terminar rodada");
+		app.setPausarEmNovaRodada(false);
+		checkboxPausarTermino.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				app.setPausarEmNovaRodada(checkboxPausarTermino.isSelected());
+			}
+		});
 
 		mButtonPular = new JButton("Próximo passo");
 		mButtonPular.addActionListener(new ActionListener() {
@@ -117,7 +124,7 @@ public class Janela implements TimerListener {
 					mPlaying = true;
 					mButtonPlayPause.setText("Pausar");
 					mButtonPular.setEnabled(false);
-					app.play(checkboxPausarTermino.isSelected());
+					app.play();
 				} else {
 					app.pause();
 				}

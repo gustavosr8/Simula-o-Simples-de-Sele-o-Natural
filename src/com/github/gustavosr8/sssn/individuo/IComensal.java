@@ -5,7 +5,9 @@ import com.github.gustavosr8.sssn.ui.props.IPropHolder;
 
 public interface IComensal extends IPropHolder {
 	public void aoTerminarDeComer(double e);
+
 	public IDisputa getDisputa();
+
 	// Retorna true se continua vivo.
-	public boolean perderEnergia(IAmbiente ambiente, float e);
+	public boolean perderEnergia(IAmbiente ambiente, double e);
 }

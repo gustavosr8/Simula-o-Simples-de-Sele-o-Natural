@@ -14,4 +14,8 @@ public class Posicao {
     	double dy = (double)(y - outro.y);
     	return Math.sqrt(dx * dx + dy * dy);
     }
+    
+    public boolean equals(Posicao outro) {
+    	return x == outro.x && y == outro.y;
+    }
 }

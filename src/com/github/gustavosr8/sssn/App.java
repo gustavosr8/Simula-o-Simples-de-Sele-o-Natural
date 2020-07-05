@@ -16,6 +16,7 @@ public class App {
 	private TimerListener mTimerListener;
 	private double mVelocidadePlayback;
 	private ActionListener mTimerCallback;
+	private boolean mPausarEmNovaRodada = false;
 
 	public static void main(String[] args) {
 		App app = new App();
@@ -49,12 +50,16 @@ public class App {
 			}
 		}
 	}
+	
+	public void setPausarEmNovaRodada(boolean v) {
+		mPausarEmNovaRodada = v;
+	}
 
-	public void play(boolean pausarEmNovaRodada) {
+	public void play() {
 		mTimerCallback = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (mAmbiente.passo() && pausarEmNovaRodada)
+				if (mAmbiente.passo() && mPausarEmNovaRodada)
 					pause();
 				mTimerListener.onPasso();
 			}
