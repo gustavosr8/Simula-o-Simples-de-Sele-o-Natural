@@ -109,7 +109,7 @@ public void algoInteressante(…) {
 
 ## Diagrama Geral de Componentes
 
-> ![Diagrama Geral de Componentes](docs/img/DiagramaGeralComponentes.jpg)
+> ![Diagrama Geral de Componentes](docs/img/DiagramaComponentes.jpg)
 
 > No diagrama apresentado, podemos ver como os componentes se comunicam entre si, e também como é feita a comunicação com o usuário
 
