@@ -9,9 +9,9 @@ O projeto visa criar uma simulação na qual é possivel, de forma simplificada,
 
 # Sumário
 
-* [apresentação do projeto](#vídeos)
-* [diagrama de componentes](#diagramas)
-* [interfaces](#detalhamento-das-interfaces)
+* [Apresentação do Projeto](#vídeos)
+* [Diagrama de Componentes](#diagramas)
+* [Interfaces](#detalhamento-das-interfaces)
 * [Plano de Exceções](#tratamento-de-erros)
 
 # Vídeos
@@ -34,7 +34,7 @@ O projeto visa criar uma simulação na qual é possivel, de forma simplificada,
 
 * A evolução e execução do projeto pode ser dividida em 3 etapas: planejamento, execução e finalização.
 
-   * Planejamento: A etapa mais longa e talvez a mais importante, levamos cerca de 15 dias para conclui-la. Nessa etapa procuramos esclarecer exatamente os objetivos       do projeto, e quais os meios que teriamos para alcançar esses objetivos. Determinamos como seria a apresentação visual do projeto, com quais elementos o usuário  pode interagir, qual a melhor forma de realizar essas interações, quais características do sistema como um todo seriam customizaveis, e qual a melhor forma de    organizar isso. Além disso definimos quais seriam os "mecanismos internos" do projeto, quais interfaces seriam criadas, e quais componentes essas interfaces   poderiam gerar, além de como se daria a comunicação interna entre os componentes, e como se daria a comunicação externa com o usuário.
+   * Planejamento:  Nessa etapa procuramos esclarecer exatamente os objetivos       do projeto, e quais os meios que teriamos para alcançar esses objetivos. Determinamos como seria a apresentação visual do projeto, com quais elementos o usuário  pode interagir, qual a melhor forma de realizar essas interações, quais características do sistema como um todo seriam customizaveis, e qual a melhor forma de    organizar isso. Além disso definimos quais seriam os "mecanismos internos" do projeto, quais interfaces seriam criadas, e quais componentes essas interfaces   poderiam gerar, além de como se daria a comunicação interna entre os componentes, e como se daria a comunicação externa com o usuário.
    
    * Execução: Na execução procuramos ser o mais fiel possível ao que foi planejado, porém algumas coisas tiveram que ser mudadas, e para continuar mantendo o controle, criamos um documento no qual fomos listando todas as mudanças que precisaram ser feitas no projeto original. Dessas mudanças pode-se citar a adoção de um sistema diferente de gerenciamento de propriedades, o refatoramento de alguns componentes e até mesmo de algumas interfaces.
    
@@ -42,17 +42,53 @@ O projeto visa criar uma simulação na qual é possivel, de forma simplificada,
 
 # Destaques de Código
 
-> O trecho abaixo merece destaque pois é a forma que encontramos para gerenciar as propriedades, que gerou um sistema consistente no qual o usúario pode alterar as propriedades, e essas propriedades podem ser facilmente acessadas internamente, gerando um alerta de erro caso haja alguma inconsistencia na alteração. 
+> O trecho abaixo merece destaque pois é a forma com que uma nova rodada da simulação é inicializada. Nela, podemos ver que primeiro há a reprodução daqueles indivíduos considerados aptos a tal ação, depois posiciona todos nas bordas e cria novos individuos aleatórios até atingir a quantidade estabelecida pelo usuário e por fim, adiciona um certo número de alimentos em espaços vagos aleatórios. 
 
 ~~~java
-public abstract class Prop {
-	public abstract String getKey();
-	public abstract String getValue();
-	public abstract void setValue(String x) throws ErroProp;
-}
-~~~
+private void comecarRodada() {
+        int novos = 0;
 
-[Destaque](docs/img/Prop.jpg)
+        while (mSobreviventes.size() >= 2) {
+            IIndividuo ind1 = mSobreviventes.remove(0);
+
+            IIndividuo[] disponiveis = new IIndividuo[mSobreviventes.size()];
+            mSobreviventes.toArray(disponiveis);
+
+            int id = ind1.escolherParceiro(disponiveis);
+            IIndividuo ind2 = mSobreviventes.remove(id);
+
+            Gene gene = ind2.aoReproduzir(ind1);
+            IDisputa disputa = gene.altruismo >= mMinimoAltruismoParaAltruista.get() ? new DisputaAltruista()
+                    : new DisputaAgressivo();
+            adicionar(new Individuo(posicaoNaBordaAleatoriaVaga(), disputa, gene, mCustoMov.get(),
+                    mEnergiaInicialIndividuo.get()));
+
+            ind1.updatePosicao(posicaoNaBordaAleatoriaVaga());
+            ind1.perderEnergia(this, mEnergiaRepro.get());
+            adicionar(ind1);
+            ind2.updatePosicao(posicaoNaBordaAleatoriaVaga());
+            ind2.perderEnergia(this, mEnergiaRepro.get());
+            adicionar(ind2);
+
+            novos += 3;
+        }
+        if (mSobreviventes.size() == 1) {
+            IIndividuo ind1 = mSobreviventes.remove(0);
+            ind1.updatePosicao(posicaoNaBordaAleatoriaVaga());
+            adicionar(ind1);
+
+            novos += 1;
+        }
+
+        if (novos < mRepopularCom.get())
+            for (int i = 0; i < mRepopularCom.get() - novos; i++)
+                adicionarIndividuoEm(posicaoNaBordaAleatoriaVaga());
+
+        for (int i = 0; i < mAlimentoPorRodada.get(); i++)
+            adicionarAlimentoEm(posicaoAleatoriaVaga());
+    }
+    
+    ~~~
 
 ***
 # Destaques de Pattern
@@ -268,7 +304,7 @@ public interface IPropHolder {
 ~~~
 
 > Nota-se que nessa interface não há metodos, somente uma lista de objetos do tipo Prop que armazena as propriedades de um certo objeto
-
+![Prop](docs/img/Prop.jpg)
 
 ### Interface `IObjeto`
 
