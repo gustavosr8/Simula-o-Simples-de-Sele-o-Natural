@@ -8,17 +8,20 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.github.gustavosr8.sssn.ambiente.Posicao;
+import com.github.gustavosr8.sssn.App;
 import com.github.gustavosr8.sssn.IObjeto;
-import com.github.gustavosr8.sssn.ambiente.IAmbiente;
 
 public class Display extends JPanel implements IDisplay {
 	private Graphics mGraphics = null;
 
-	private IAmbiente mAmbiente;
+	private App mApp;
 
 	private int mDeltaX = 10;
 	private int mDeltaY = 10;
@@ -27,9 +30,10 @@ public class Display extends JPanel implements IDisplay {
 	private boolean mDragged = false;
 	private int mMouseX = 0;
 	private int mMouseY = 0;
+	
+	public Display(App app, DisplayClickListener onClick) {
+		mApp = app;
 
-	public Display(IAmbiente ambiente, OnClickPosicao onClick) {
-		mAmbiente = ambiente;
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -37,9 +41,11 @@ public class Display extends JPanel implements IDisplay {
 				mMouseY = e.getY();
 				mDragged = false;
 			}
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				if (mDragged)
+					return;
 				mMouseX = e.getX();
 				mMouseY = e.getY();
 				Posicao pos = posicaoSelecionada();
@@ -78,13 +84,13 @@ public class Display extends JPanel implements IDisplay {
 				} else if (mTamanhoCelula < 256) {
 					delta = 2;
 				}
-				
+
 				double fator = (double) (mTamanhoCelula + delta) / (double) mTamanhoCelula;
 				mTamanhoCelula += delta;
-				
+
 				mDeltaX -= (mMouseX - mDeltaX) * (fator - 1);
 				mDeltaY -= (mMouseY - mDeltaY) * (fator - 1);
-				
+
 				repaint();
 			}
 		});
@@ -93,7 +99,7 @@ public class Display extends JPanel implements IDisplay {
 	private Posicao posicaoSelecionada() {
 		int selX = (mMouseX - mDeltaX) / mTamanhoCelula;
 		int selY = (mMouseY - mDeltaY) / mTamanhoCelula;
-		if (selX >= 0 && selY >= 0 && selX < mAmbiente.getLargura() && selY < mAmbiente.getAltura())
+		if (selX >= 0 && selY >= 0 && selX < mApp.getAmbiente().getLargura() && selY < mApp.getAmbiente().getAltura())
 			return new Posicao(selX, selY);
 		else
 			return null;
@@ -107,13 +113,13 @@ public class Display extends JPanel implements IDisplay {
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		g.setColor(Color.DARK_GRAY);
-		for (int x = 0; x <= mAmbiente.getLargura(); x++)
+		for (int x = 0; x <= mApp.getAmbiente().getLargura(); x++)
 			g.drawLine(x * mTamanhoCelula + mDeltaX, mDeltaY, x * mTamanhoCelula + mDeltaX,
-					mAmbiente.getAltura() * mTamanhoCelula + mDeltaY);
+					mApp.getAmbiente().getAltura() * mTamanhoCelula + mDeltaY);
 
-		for (int y = 0; y <= mAmbiente.getAltura(); y++)
-			g.drawLine(mDeltaX, y * mTamanhoCelula + mDeltaY, mAmbiente.getLargura() * mTamanhoCelula + mDeltaX,
-					y * mTamanhoCelula + mDeltaY);
+		for (int y = 0; y <= mApp.getAmbiente().getAltura(); y++)
+			g.drawLine(mDeltaX, y * mTamanhoCelula + mDeltaY,
+					mApp.getAmbiente().getLargura() * mTamanhoCelula + mDeltaX, y * mTamanhoCelula + mDeltaY);
 
 		Posicao selPos = posicaoSelecionada();
 		if (selPos != null) {
@@ -123,9 +129,9 @@ public class Display extends JPanel implements IDisplay {
 		}
 
 		mGraphics = g;
-		for (int x = 0; x < mAmbiente.getLargura(); x++)
-			for (int y = 0; y < mAmbiente.getAltura(); y++) {
-				IObjeto[] o = mAmbiente.getObj(new Posicao(x, y));
+		for (int x = 0; x < mApp.getAmbiente().getLargura(); x++)
+			for (int y = 0; y < mApp.getAmbiente().getAltura(); y++) {
+				IObjeto[] o = mApp.getAmbiente().getObj(new Posicao(x, y));
 				for (int i = 0; i < o.length; i++)
 					o[i].exibir(this);
 			}

@@ -71,24 +71,41 @@ public class Ambiente implements IAmbiente {
 
 	public Ambiente() {
 		mCasas = new ArrayList[mLargura.get()][mAltura.get()];
+		reiniciar();
+	}
+
+	@Override
+	public void reiniciar() {
 		for (int i = 0; i < mLargura.get(); i++)
 			for (int j = 0; j < mAltura.get(); j++)
 				mCasas[i][j] = new ArrayList<IObjeto>();
 		comecarRodada();
 	}
 
+	@Override
 	public int getAltura() {
 		return mAltura.get();
 	}
 
+	@Override
 	public int getLargura() {
 		return mLargura.get();
 	}
 
-	private void adicionar(IObjeto obj) {
-		Posicao pos = obj.getPosicao();
-		if (pos.x >= 0 && pos.y >= 0 && pos.x < getLargura() && pos.y < getAltura())
-			mCasas[pos.x][pos.y].add(obj);
+	@Override
+	public void adicionarIndividuoEm(Posicao p) {
+		Gene gene = new Gene(
+				mRandom.nextDouble() * (mMaximoVelocidade.get() - mMinimoVelocidade.get()) + mMinimoVelocidade.get(),
+				mRandom.nextDouble() * (mMaximoTamanho.get() - mMinimoTamanho.get()) + mMinimoTamanho.get(),
+				mRandom.nextDouble() * (mMaximoAltruismo.get() - mMinimoAltruismo.get()) + mMinimoAltruismo.get());
+		IDisputa disputa = gene.altruismo >= mMinimoAltruismoParaAltruista.get() ? new DisputaAltruista()
+				: new DisputaAgressivo();
+		adicionar(new Individuo(p, disputa, gene, mCustoMov.get(), mEnergiaInicialIndividuo.get()));
+	}
+
+	@Override
+	public void adicionarAlimentoEm(Posicao p) {
+		adicionar(new Alimento(p, mEnergiaPorAlimento.get(), mDelayDeAlimento.get()));
 	}
 
 	@Override
@@ -101,8 +118,7 @@ public class Ambiente implements IAmbiente {
 	@Override
 	public void remover(IObjeto i) {
 		Posicao pos = i.getPosicao();
-		if (!mCasas[pos.x][pos.y].remove(i))
-			throw new RuntimeException("Removeu objeto inexistente em " + pos);
+		mCasas[pos.x][pos.y].remove(i);
 	}
 
 	@Override
@@ -128,18 +144,24 @@ public class Ambiente implements IAmbiente {
 			mPasso.set(0);
 			terminarRodada();
 			comecarRodada();
-			return true;
+		} else {
+			ArrayList<IObjeto> obj = objetos();
+			for (int i = 0; i < obj.size(); i++)
+				obj.get(i).passo(this);
 		}
-		ArrayList<IObjeto> obj = objetos();
-		for (int i = 0; i < obj.size(); i++)
-			obj.get(i).passo(this);
-		return false;
+		return mPasso.get() == mPassosPorRodada.get() - 1;
 	}
 
 	@Override
 	public IObjeto[] getObj(Posicao p) {
 		IObjeto[] ret = new IObjeto[mCasas[p.x][p.y].size()];
 		return mCasas[p.x][p.y].toArray(ret);
+	}
+
+	private void adicionar(IObjeto obj) {
+		Posicao pos = obj.getPosicao();
+		if (pos.x >= 0 && pos.y >= 0 && pos.x < getLargura() && pos.y < getAltura())
+			mCasas[pos.x][pos.y].add(obj);
 	}
 
 	// IPropriedades
@@ -206,23 +228,12 @@ public class Ambiente implements IAmbiente {
 			novos += 1;
 		}
 
-		if (novos < mRepopularCom.get()) {
-			for (int i = 0; i < mRepopularCom.get() - novos; i++) {
-				Gene gene = new Gene(
-						mRandom.nextDouble() * (mMaximoVelocidade.get() - mMinimoVelocidade.get())
-								+ mMinimoVelocidade.get(),
-						mRandom.nextDouble() * (mMaximoTamanho.get() - mMinimoTamanho.get()) + mMinimoTamanho.get(),
-						mRandom.nextDouble() * (mMaximoAltruismo.get() - mMinimoAltruismo.get())
-								+ mMinimoAltruismo.get());
-				IDisputa disputa = gene.altruismo >= mMinimoAltruismoParaAltruista.get() ? new DisputaAltruista()
-						: new DisputaAgressivo();
-				adicionar(new Individuo(posicaoNaBordaAleatoriaVaga(), disputa, gene, mCustoMov.get(),
-						mEnergiaInicialIndividuo.get()));
-			}
-		}
+		if (novos < mRepopularCom.get())
+			for (int i = 0; i < mRepopularCom.get() - novos; i++)
+				adicionarIndividuoEm(posicaoNaBordaAleatoriaVaga());
 
 		for (int i = 0; i < mAlimentoPorRodada.get(); i++)
-			adicionar(new Alimento(posicaoAleatoriaVaga(), mEnergiaPorAlimento.get(), mDelayDeAlimento.get()));
+			adicionarAlimentoEm(posicaoAleatoriaVaga());		
 	}
 
 	private Posicao posicaoNaBordaAleatoriaVaga() {
@@ -253,7 +264,7 @@ public class Ambiente implements IAmbiente {
 		} while (getObj(p).length > 0 && contagem < 50);
 		return p;
 	}
-	
+
 	private ArrayList<IObjeto> objetos() {
 		ArrayList<IObjeto> obj = new ArrayList<IObjeto>();
 		for (int i = 0; i < getLargura(); i++)
