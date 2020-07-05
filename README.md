@@ -7,7 +7,14 @@ O projeto visa criar uma simulação na qual é possivel, de forma simplificada,
 * Gustavo de Souza dos Reis - 217425
 * Nicolas Bissoli Nattis - 222903
 
-# Vídeos do Projeto
+# Sumário
+
+* [apresentação do projeto](#videos)
+* [componentes](#diagramas)
+* [interfaces](#detalhamento-das-interfaces)
+* [Plano de Exceções](#tratamento-de-erros)
+
+# Vídeos
 
 ## Vídeo da Prévia
 > [Descrição do projeto em vídeo](https://youtu.be/5YG_XTaacII)
@@ -433,7 +440,7 @@ Método | Objetivo
 `getLargura` | `Retorna a largura de um ambiente`
 ***
 
-# Plano de Exceções
+# Tratamento de Erros
 
 ## Diagrama da hierarquia de exceções
    
