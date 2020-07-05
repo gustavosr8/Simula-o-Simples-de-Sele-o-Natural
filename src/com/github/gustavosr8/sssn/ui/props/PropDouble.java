@@ -17,6 +17,10 @@ public class PropDouble extends Prop {
 		return mVal;
 	}
 	
+	public void set(double d) {
+		mVal=d;
+	}
+	
 	@Override
 	public String getKey() {
 		return mKey;
