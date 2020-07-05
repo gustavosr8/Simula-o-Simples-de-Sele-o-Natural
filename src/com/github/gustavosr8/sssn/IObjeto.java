@@ -9,5 +9,5 @@ public interface IObjeto extends IPropHolder {
 	public void exibir(IDisplay display);
 	public void passo(IAmbiente ambiente);
 	public Posicao getPosicao();
-	public void aoMover(Posicao f);
+	public void updatePosicao(Posicao f);
 }

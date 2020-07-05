@@ -67,7 +67,7 @@ public class Alimento implements IAlimento {
 	}
 
 	@Override
-	public void aoMover(Posicao f) {
+	public void updatePosicao(Posicao f) {
 		mPosicao = f;
 	}
 

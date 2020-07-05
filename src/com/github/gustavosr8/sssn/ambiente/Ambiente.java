@@ -30,7 +30,7 @@ public class Ambiente implements IAmbiente, ActionListener {
 	public void mover(IObjeto i, Posicao alvo) {
 		mCasas[i.getPosicao().x][i.getPosicao().y].remove(i);
 		mCasas[alvo.x][alvo.y].add(i);
-		i.aoMover(alvo);
+		i.updatePosicao(alvo);
 	}
 
 	@Override

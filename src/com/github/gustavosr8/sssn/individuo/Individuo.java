@@ -1,5 +1,7 @@
 package com.github.gustavosr8.sssn.individuo;
 
+import java.awt.Color;
+
 import com.github.gustavosr8.sssn.IObjeto;
 import com.github.gustavosr8.sssn.alimento.Alimento;
 import com.github.gustavosr8.sssn.alimento.IAlimento;
@@ -64,9 +66,13 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	@Override
 	public void exibir(IDisplay display) {
-		// TODO Auto-generated method stub
+		
+	// A cor começa é azul se for altruista e vermelho se for agressivo
+		Color rb = (mDisputa instanceof DisputaAltruista) ? new Color(0,0,255): new Color(255,0,0);
+		display.desenharLosango(mPosicao, 1, rb);
 
 	}
+	
 
 	@Override
 	public void passo(IAmbiente ambiente) {
@@ -75,9 +81,11 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		alvo = ambiente.maisProximo(getPosicao(), Alimento.class);
 		
 		if(alvo.getPosicao().equals(getPosicao())) {
-			if(((Alimento) alvo).getAlimentando() != null) {
-				IComensal[] oponentes = ((Alimento) alvo).getAlimentando(); 
-				//aqui tem que criar a disputa   <------------------------------------------------------------------------------------
+			if(((IAlimento) alvo).getAlimentando() != null) {
+				IComensal[] oponentes = ((IAlimento) alvo).getAlimentando(); 
+				for(IComensal o:oponentes) {
+					getDisputa().conflitar(ambiente, (IAlimento) alvo, this, o);					
+				}
 			}
 		}
 		
@@ -122,27 +130,17 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 			}
 		}
 
-		aoMover(futura);
+		ambiente.mover(this, futura);
 	}
 
 	@Override
 	public Posicao getPosicao() {
-
 		return mPosicao;
-
 	}
 
 	@Override
-	public void aoMover(Posicao f) {
-
-		int DeltaX = Math.abs(f.x - getPosicao().x);
-		int DeltaY = Math.abs(f.y - getPosicao().y);
-		
-		Double NEnergia = mEnergiaArmazenada.get() - ((DeltaY+DeltaX)*mGastoEnergetico.get());
-		
-		mEnergiaArmazenada.set(NEnergia);
+	public void updatePosicao(Posicao f) {
 		mPosicao = f;
-
 	}
 
 	@Override
@@ -156,6 +154,20 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 	public IDisputa getDisputa() {
 		return mDisputa;
 	}
+	
+	@Override
+	public boolean perderEnergia(IAmbiente ambiente, float e) {
+		
+		double NEnergia = mEnergiaArmazenada.get() - e;
+		
+		if( NEnergia <= 0 ) {
+			ambiente.remover(this);
+			return false;
+			}
+		
+		mEnergiaArmazenada.set(NEnergia);
+		return true;
+	}
 
 	@Override
 	public Gene getGene() {
@@ -165,7 +177,6 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 	
 	@Override
 	public int escolherParceiro(IReproducao[] x) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -181,4 +192,6 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 		
 		return filho;
 	}
+
+	
 }
