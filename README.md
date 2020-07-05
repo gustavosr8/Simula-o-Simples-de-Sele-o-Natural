@@ -417,6 +417,11 @@ public interface IAmbiente extends IPropHolder {
     public int getLargura();
 
     public void reiniciar();
+    
+    public void adicionarIndividuoEm(Posicao p);
+    public void adicionarAlimentoEm(Posicao p);
+    
+    
 
     public void adicionarIndividuoEm(Posicao p);
     public void adicionarAlimentoEm(Posicao p);

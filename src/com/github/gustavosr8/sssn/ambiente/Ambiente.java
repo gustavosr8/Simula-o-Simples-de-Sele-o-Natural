@@ -1,6 +1,8 @@
 package com.github.gustavosr8.sssn.ambiente;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 import com.github.gustavosr8.sssn.IObjeto;
@@ -190,6 +192,12 @@ public class Ambiente implements IAmbiente {
 						mSobreviventes.add((IIndividuo) o.get(k));
 			}
 		}
+		Collections.sort(mSobreviventes, new Comparator<IIndividuo>() {
+			@Override
+			public int compare(IIndividuo lhs, IIndividuo rhs) {
+				return Double.compare(lhs.getEnergia(), rhs.getEnergia());
+			}
+		});
 		limpar();
 	}
 
@@ -233,7 +241,7 @@ public class Ambiente implements IAmbiente {
 				adicionarIndividuoEm(posicaoNaBordaAleatoriaVaga());
 
 		for (int i = 0; i < mAlimentoPorRodada.get(); i++)
-			adicionarAlimentoEm(posicaoAleatoriaVaga());		
+			adicionarAlimentoEm(posicaoAleatoriaVaga());
 	}
 
 	private Posicao posicaoNaBordaAleatoriaVaga() {
