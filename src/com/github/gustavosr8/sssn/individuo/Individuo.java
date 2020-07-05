@@ -83,7 +83,7 @@ public class Individuo implements IIndividuo {
 
 	@Override
 	public void passo(IAmbiente ambiente) {
-		if (getEnergia() == 0)
+		if (getEnergia() == 0 || getEnergia() >= mTamanho.get())
 			return;
 		
 		IAlimento alvo = (IAlimento) ambiente.maisProximo(getPosicao(), Alimento.class);
