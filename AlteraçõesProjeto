@@ -24,3 +24,5 @@ objeto de certo tipo mais proximo de dada posição.
 - Deletado ErroPropInexistente
 
 - Em gene, todos os itens agora são double.
+
+- IDisputa, IIndividuo e IComensal alterados
