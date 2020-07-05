@@ -132,6 +132,7 @@ public class Janela {
 					JOptionPane.showMessageDialog(null, erro.getMessage(), "Erro ao editar propriedade",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
+				mDisplay.repaint();
 				updateProps();
 			}
 		});

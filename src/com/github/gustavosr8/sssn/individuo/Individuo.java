@@ -1,7 +1,5 @@
 package com.github.gustavosr8.sssn.individuo;
 
-import java.awt.Color;
-
 import com.github.gustavosr8.sssn.IObjeto;
 import com.github.gustavosr8.sssn.alimento.Alimento;
 import com.github.gustavosr8.sssn.alimento.IAlimento;
@@ -20,12 +18,12 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	private PropDouble mVelocidade;
 	private PropDouble mTamanho;
-	private PropAltruismo mPropAltruismo;
+	private PropAltruismo mPropAltruismo = new PropAltruismo();
 
 	private PropDouble mGastoEnergetico;
 	private PropDouble mEnergiaArmazenada;
 
-	private IDisputa mDisputa;
+	private IDisputa mDisputa = new DisputaAgressivo();
 
 	private Posicao mPosicao;
 
@@ -47,13 +45,27 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 		@Override
 		public void setValue(String x) throws ErroProp {
-			try {
-				boolean b = Boolean.parseBoolean(x);
-				mDisputa = b ? new DisputaAltruista() : new DisputaAgressivo();
-			} catch (NumberFormatException e) {
-				throw new ErroPropTipoInvalido("A propriedade deve ser true/false");
-			}
+			if (x.equals("1"))
+				mDisputa = new DisputaAltruista();
+			else if (x.equals("0"))
+				mDisputa = new DisputaAgressivo();
+			else
+				throw new ErroPropTipoInvalido("A propriedade deve ser 1 ou 0");
 		}
+	}
+
+	public Individuo(Posicao posicao, Gene gene, double gastoEnergetico, double energiaInicial) {
+		mPosicao = posicao;
+
+		mGeneVelocidade = new PropDouble("Velocidade (gene)", gene.velocidade, 0.0, 1e5);
+		mGeneTamanho = new PropDouble("Tamanho (gene)", gene.tamanho, 0.0, 1e5);
+		mGeneAltruismo = new PropDouble("Altruísmo (gene)", gene.altruismo, 0.0, 1e5);
+
+		mVelocidade = new PropDouble("Velocidade", gene.velocidade, 0.0, 1e5);
+		mTamanho = new PropDouble("Tamanho", gene.tamanho, 0.0, 1e5);
+
+		mGastoEnergetico = new PropDouble("Custo de movimentação", gastoEnergetico, 0.0, 1e5);
+		mEnergiaArmazenada = new PropDouble("Energia", energiaInicial, 0.0, 1e5);
 	}
 
 	// IPorpHolder
@@ -69,8 +81,9 @@ public class Individuo implements IReproducao, IComensal, IObjeto {
 
 	@Override
 	public void exibir(IDisplay display) {
-		display.desenharLosango(mPosicao, 1, getDisputa().getCor());
-		display.desenharTexto(mPosicao, mEnergiaArmazenada.getValue());
+		display.desenharCirculo(mPosicao, 0.5, getDisputa().getCor());
+		display.desenharTexto(mPosicao,
+				Integer.toString((int) mEnergiaArmazenada.get()) + "/" + Integer.toString((int) mTamanho.get()));
 	}
 
 	@Override

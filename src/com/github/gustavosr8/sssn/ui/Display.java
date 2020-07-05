@@ -1,6 +1,7 @@
 package com.github.gustavosr8.sssn.ui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -42,7 +43,7 @@ public class Display extends JPanel implements IDisplay {
 				mMouseX = e.getX();
 				mMouseY = e.getY();
 				Posicao pos = posicaoSelecionada();
-				if (mDragged && onClick != null && pos != null)
+				if (!mDragged && onClick != null && pos != null)
 					onClick.onClick(e, pos);
 			}
 		});
@@ -110,7 +111,7 @@ public class Display extends JPanel implements IDisplay {
 			g.drawLine(x * mTamanhoCelula + mDeltaX, mDeltaY, x * mTamanhoCelula + mDeltaX,
 					mAmbiente.getAltura() * mTamanhoCelula + mDeltaY);
 
-		for (int y = 0; y <= mAmbiente.getLargura(); y++)
+		for (int y = 0; y <= mAmbiente.getAltura(); y++)
 			g.drawLine(mDeltaX, y * mTamanhoCelula + mDeltaY, mAmbiente.getLargura() * mTamanhoCelula + mDeltaX,
 					y * mTamanhoCelula + mDeltaY);
 
@@ -135,40 +136,34 @@ public class Display extends JPanel implements IDisplay {
 	public void desenharCirculo(Posicao pos, double raio, Color cor) {
 		int r = (int) (raio * (double) mTamanhoCelula);
 
-		int x = pos.x * mTamanhoCelula - mDeltaX - r;
-		int y = pos.y * mTamanhoCelula - mDeltaY - r;
+		int x = pos.x * mTamanhoCelula + mTamanhoCelula / 2 + mDeltaX - r;
+		int y = pos.y * mTamanhoCelula + mTamanhoCelula / 2 + mDeltaY - r;
 
-		if (x + r > 0 && y + r > 0 && x - r < getWidth() && y - r < getHeight()) {
-			mGraphics.setColor(cor);
-			mGraphics.fillOval(x, y, 2 * r, 2 * r);
-		}
+		mGraphics.setColor(cor);
+		mGraphics.fillOval(x, y, 2 * r, 2 * r);
 	}
 
 	@Override
 	public void desenharLosango(Posicao pos, double raio, Color cor) {
 		int r = (int) (raio * (double) mTamanhoCelula);
 
-		int x = pos.x * mTamanhoCelula - mDeltaX - r;
-		int y = pos.y * mTamanhoCelula - mDeltaY - r;
+		int x = pos.x * mTamanhoCelula + mTamanhoCelula / 2 + mDeltaX;
+		int y = pos.y * mTamanhoCelula + mTamanhoCelula / 2 + mDeltaY;
 
-		if (x + r > 0 && y + r > 0 && x - r < getWidth() && y - r < getHeight()) {
-			int[] xPoints = { x + r, x, x - r, x };
-			int[] yPoints = { y, y + r, y, y - r };
+		int[] xPoints = { x + r, x, x - r, x };
+		int[] yPoints = { y, y + r, y, y - r };
 
-			mGraphics.setColor(cor);
-			mGraphics.drawPolyline(xPoints, yPoints, 4);
-		}
+		mGraphics.setColor(cor);
+		mGraphics.fillPolygon(xPoints, yPoints, 4);
 	}
 
 	@Override
 	public void desenharTexto(Posicao pos, String texto) {
-		int x = pos.x * mTamanhoCelula - mDeltaX;
-		int y = pos.y * mTamanhoCelula - mDeltaY;
+		int x = pos.x * mTamanhoCelula - mTamanhoCelula / 32 + mDeltaX;
+		int y = pos.y * mTamanhoCelula + 2 * mTamanhoCelula / 3 + mDeltaY;
 
-		if (x + mTamanhoCelula / 2 > 0 && y + mTamanhoCelula / 2 > 0 && x - mTamanhoCelula / 2 < getWidth()
-				&& y - mTamanhoCelula / 2 < getHeight()) {
-			mGraphics.setColor(Color.BLACK);
-			mGraphics.drawString(texto, x, y);
-		}
+		mGraphics.setColor(Color.BLACK);
+		mGraphics.setFont(new Font("Sans-Serif", Font.PLAIN, 7 * mTamanhoCelula / 16));
+		mGraphics.drawString(texto, x, y);
 	}
 }
