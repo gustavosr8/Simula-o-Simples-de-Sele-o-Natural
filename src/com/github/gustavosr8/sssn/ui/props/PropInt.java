@@ -17,6 +17,10 @@ public class PropInt extends Prop {
 		return mVal;
 	}
 	
+	public void set(int v) {
+		mVal = v;
+	}
+	
 	@Override
 	public String getKey() {
 		return mKey;

@@ -5,9 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import com.github.gustavosr8.sssn.IObjeto;
-import com.github.gustavosr8.sssn.alimento.Alimento;
-import com.github.gustavosr8.sssn.individuo.Gene;
-import com.github.gustavosr8.sssn.individuo.Individuo;
 import com.github.gustavosr8.sssn.ui.props.ErroProp;
 import com.github.gustavosr8.sssn.ui.props.Prop;
 import com.github.gustavosr8.sssn.ui.props.PropDouble;
@@ -36,7 +33,7 @@ public class Ambiente implements IAmbiente, ActionListener {
 	private PropDouble mMinimoAltruismo = new PropDouble("Valor mínimo do gene altruísmo", 0.0, -1e5, 1e5);
 	private PropDouble mMaximoAltruismo = new PropDouble("Valor máximo do gene altruísmo", 10.0, -1e5, 1e5);
 
-	private int mPassos = 0;
+	private PropInt mPasso = new PropInt("Passo", 0, 1, 10000);
 	
 	private class PropTamanho extends PropInt {
 		public PropTamanho(String nome) {
@@ -109,7 +106,7 @@ public class Ambiente implements IAmbiente, ActionListener {
 	// IPropriedades
 	@Override
 	public Prop[] props() {
-		Prop[] props = { mAltura, mLargura, mPassosPorRodada, mRepopularCom, mEnergiaPorAlimento,
+		Prop[] props = { mAltura, mLargura, mPassosPorRodada, mPasso, mRepopularCom, mEnergiaPorAlimento,
 				mDelayDeAlimento, mCustoMov, mEnergiaInicialIndividuo, mMinimoAltruismoParaAltruista, mMinimoTamanho,
 				mMaximoTamanho, mMinimoVelocidade, mMaximoVelocidade, mMinimoAltruismo, mMaximoAltruismo };
 		return props;
@@ -128,13 +125,13 @@ public class Ambiente implements IAmbiente, ActionListener {
 			for (int j = 0; j < mCasas[i].length; j++)
 				for (int k = 0; k < mCasas[i][j].size(); k++)
 					mCasas[i][j].get(k).passo(this);
-		mPassos++;
-		if (mPassos >= mPassosPorRodada.get()) {
-			mPassos = 0;
+		mPasso.set(mPasso.get() + 1);
+		if (mPasso.get() >= mPassosPorRodada.get()) {
+			mPasso.set(0);
 			// TODO repopular
 			return true;
 		}
-		return false;
+		return true;
 	}
 
 	@Override

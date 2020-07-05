@@ -103,10 +103,10 @@ public class Display extends JPanel implements IDisplay {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
-		g.setColor(Color.LIGHT_GRAY);
+		g.setColor(Color.DARK_GRAY);
 		for (int x = 0; x <= mAmbiente.getLargura(); x++)
 			g.drawLine(x * mTamanhoCelula + mDeltaX, mDeltaY, x * mTamanhoCelula + mDeltaX,
 					mAmbiente.getAltura() * mTamanhoCelula + mDeltaY);
@@ -162,7 +162,7 @@ public class Display extends JPanel implements IDisplay {
 		int x = pos.x * mTamanhoCelula - mTamanhoCelula / 32 + mDeltaX;
 		int y = pos.y * mTamanhoCelula + 2 * mTamanhoCelula / 3 + mDeltaY;
 
-		mGraphics.setColor(Color.BLACK);
+		mGraphics.setColor(Color.WHITE);
 		mGraphics.setFont(new Font("Sans-Serif", Font.PLAIN, 7 * mTamanhoCelula / 16));
 		mGraphics.drawString(texto, x, y);
 	}
