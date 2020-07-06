@@ -21,7 +21,7 @@ O projeto visa criar uma simulação na qual é possivel, de forma simplificada,
 
 
 ## Vídeo do Jogo
-> <Coloque um link para o vídeo em que é demonstrada a versão final do jogo. Esse vídeo deve ter em torno de 5 minutos. Este vídeo não apresenta slides, nem substitui a apresentação final do projeto, que será feita por conferência. Ele mostra apenas o jogo em funcionamento.>
+> [Demonstração](https://www.youtube.com/watch?v=t_VHFi2_rmk&feature=youtu.be)
 
 # Slides do Projeto
 
