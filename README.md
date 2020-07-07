@@ -88,7 +88,7 @@ private void comecarRodada() {
             adicionarAlimentoEm(posicaoAleatoriaVaga());
     }
     
-    ~~~
+ ~~~
 
 ***
 # Destaques de Pattern
